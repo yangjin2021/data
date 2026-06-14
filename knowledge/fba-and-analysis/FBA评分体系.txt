@@ -1,133 +1,263 @@
-comprehensive_achievement_calibration:
-  name: "综合达成率校准规则"
-  enabled: true
-  purpose: "解决规则过于保守导致优质商品综合达成率偏低的问题。原始综合达成率用于内部严谨判断，校准后综合达成率用于最终决策展示。"
+dimension_0_veto_rules:  
+name: "维度0：否决项 / 合规红线"  
+enabled: true  
+position: "先于维度1-4执行，但不进入评分表"  
+purpose: "在正式计算维度1-4之前，先排除禁售、高资质、强监管、侵权、违法、安全红线和平台严令禁售产品，避免账号处罚、资金冻结和封店风险。"
 
-  core_logic:
-    raw_comprehensive_achievement:
-      definition: "按照维度1-4的权重、单项达成率、加权贡献计算出的原始综合达成率。"
-      rule: "原始综合达成率必须保留，用于解释产品真实短板、风险来源和利润结构。"
+core_logic:  
+rule_1: "维度0只判断是否进入后续评估，不参与综合达成率计算。"  
+rule_2: "命中明确否决项时，直接输出“不建议做”，不再进行维度1-4评估，也不进行综合达成率校准。"  
+rule_3: "没有明确命中否决项，但存在资质、认证、侵权、平台限制或强监管疑点时，标记为“待确认风险”，允许进入维度1-4评估，但必须限制校准后综合达成率上限。"  
+rule_4: "若产品属于普通可售品类，但存在安全、安装、适配、尖锐、带电、易碎、重货、售后高损耗等问题，不作为维度0直接否决，而应进入维度3风险承受比降低达成率。"
 
-    calibrated_comprehensive_achievement:
-      definition: "在原始综合达成率基础上，根据规则严苛程度进行分段校准后的最终展示结果。"
-      rule: "最终结论优先参考校准后综合达成率，但否决项、硬性红线和利润硬伤拥有最高优先级。"
+decision_status:  
+pass:  
+name: "通过"  
+meaning: "未发现明确禁售、高资质强监管、侵权、违法、安全红线或平台严令禁售问题。"  
+next_step: "进入维度1-4综合评估。"  
+output_sentence: "在通过否决项的前提下，本产品进入维度1-4综合评估。"
 
-  calibration_table:
-    "90%-100%":
-      calibrated_range: "96%-100%"
-      meaning: "极优产品，原始规则下已经非常强，校准后接近满达成。"
+```
+pending_confirmation:
+  name: "待确认风险"
+  meaning: "没有足够证据直接判定禁售，但存在资质、认证、侵权、平台限制、强监管或安全合规疑点。"
+  next_step: "可以进入维度1-4评估，但必须在维度3中降低单项达成率，并限制校准后综合达成率上限。"
+  calibrated_cap: "最高不超过60%，除非风险已被证据排除。"
+  output_sentence: "本产品暂未命中明确否决项，但存在待确认合规风险；该风险不直接淘汰，但会限制校准后综合达成率上限。"
 
-    "80%-89%":
-      calibrated_range: "93%-96%"
-      meaning: "优秀产品，多数关键条件很好，只存在少量可控短板。"
+veto:
+  name: "否决"
+  meaning: "命中明确禁售、强监管无资质、违法违规、安全红线、知识产权侵权或平台严令禁售。"
+  next_step: "直接判定不建议做，不进入维度1-4评估，不进行综合达成率校准。"
+  output_sentence: "本产品命中明确否决项，直接判定不建议做，不进入后续综合评估。"
+```
 
-    "70%-79%":
-      calibrated_range: "90%-93%"
-      meaning: "原规则下达到70%以上，说明该产品已经具备较强可做性；校准后视为优秀区间。"
+category_rules:  
+high_qualification_and_strong_regulation:  
+name: "高资质门槛 / 强监管禁入品类"  
+default_decision: "否决或待确认风险"  
+rule: "此类产品需要严格资质、认证、审核或通关条件。无明确合规证据时，默认不建议做。"  
+items:  
+food_beverage_alcohol:  
+examples: ["食品", "饮料", "酒精类产品"]  
+decision: "否决"  
+reason: "资质审核、跨境通关、售后安全风险高。"
 
-    "60%-69%":
-      calibrated_range: "80%-89%"
-      meaning: "原规则下属于中上水平，校准后视为可以小批量测试或谨慎推进。"
+```
+    medicine_supplements_related_tools:
+      examples: ["药品", "膳食补充剂", "保健品", "相关使用工具"]
+      decision: "否决"
+      reason: "属于平台核心敏感品类，无资质时严禁上架。"
 
-    "50%-59%":
-      calibrated_range: "65%-79%"
-      meaning: "有一定机会，但仍存在明显短板，需要控制采购量。"
+    cosmetics:
+      examples: ["化妆品", "处方监督使用产品", "医学功效类化妆品", "过期化妆品", "管制类化妆品"]
+      decision: "否决或待确认风险"
+      reason: "涉及FDA、医学声明、成分安全、过期/管制风险。"
+      special_check:
+        - "是否声称诊断、治疗、缓解、预防人或动物疾病"
+        - "是否含处方、医学监督、功效治疗、病症改善等表达"
+        - "是否涉及FDA认定的不合理健康风险成分"
 
-    "40%-49%":
-      calibrated_range: "45%-64%"
-      meaning: "机会一般，除非有特殊优势，否则不建议优先做。"
+    medical_devices:
+      examples: ["医疗设备", "隐形眼镜", "美瞳", "美容仪", "卷发棒"]
+      decision: "否决或待确认风险"
+      reason: "多数品类需要完整资质，部分平台直接禁售。"
 
-    "0%-39%":
-      calibrated_range: "0%-44%"
-      meaning: "基础条件较弱，校准后仍不建议做。"
+    baby_children_products:
+      examples: ["婴幼儿用品", "儿童玩具", "12岁以下儿童用品"]
+      decision: "否决或待确认风险"
+      reason: "资质要求严苛，儿童玩具通常需要CPC等强制认证。"
+      special_check:
+        - "是否明确面向12岁以下儿童"
+        - "是否需要CPC、测试报告、儿童产品证书"
+        - "是否涉及儿童虐待、剥削、成人、亵渎或性题材"
 
-  recommended_formula:
-    rule: "如需公式表达，使用分段校准，不使用简单线性放大。"
-    formula:
-      if_raw_achievement_gte_70: "calibrated_achievement = 90% + (raw_comprehensive_achievement - 70%) * 0.33"
-      if_raw_achievement_between_60_and_69: "calibrated_achievement = 80% + (raw_comprehensive_achievement - 60%) * 1.0"
-      if_raw_achievement_between_50_and_59: "calibrated_achievement = 65% + (raw_comprehensive_achievement - 50%) * 1.4"
-      if_raw_achievement_lt_50: "calibrated_achievement = raw_comprehensive_achievement"
-      max_value: "100%"
+    adult_products:
+      examples: ["情趣用品", "成人用品"]
+      decision: "否决"
+      reason: "需要平台专项资质与审核，无资质或无审核入口时禁止做。"
 
-  hard_limits:
-    - condition: "命中明确否决项"
-      action: "直接判定不建议做，不进行综合达成率校准。"
+    jewelry_precious_metals:
+      examples: ["金银贵金属", "钻石", "贵金属饰品", "含辐射类金属产品"]
+      decision: "否决"
+      reason: "真伪鉴定、跨境通关、平台审核和争议风险极高。"
 
-    - condition: "真实毛利润 <= 0"
-      action: "校准后综合达成率最高不超过40%。"
+illegal_safety_redline:
+  name: "违法违规 / 安全红线绝对禁售品类"
+  default_decision: "否决"
+  rule: "涉嫌违法、公共安全、人身安全、隐私侵犯、危险品或重大平台处罚的产品，直接否决。"
+  items:
+    weapons_and_simulated_weapons:
+      examples: ["枪支", "弹药", "仿真武器", "攻击性武器", "菜刀", "剪刀", "锋利尖锐物品"]
+      decision: "否决"
+      reason: "涉及伤害性、安全风险或平台禁售。"
+      note: "普通工具配件不自动按武器否决，但若锋利、危险、易造成伤害，应进入待确认或维度3显著降达成率。"
 
-    - condition: "core_cost_after_amazon_fee_and_partner_commission <= 0"
-      action: "校准后综合达成率最高不超过40%。"
+    illegal_tools:
+      examples: ["开锁工具", "盗窃工具", "窃听设备", "秘密拦截电线/电子通讯设备", "侵犯隐私工具"]
+      decision: "否决"
+      reason: "涉嫌违法、侵犯隐私或协助犯罪。"
 
-    - condition: "freight_to_revenue_ratio > 50%"
-      action: "校准后综合达成率最高不超过50%。"
+    hazardous_chemicals_and_dangerous_goods:
+      examples: ["爆炸物", "爆炸装置制作材料", "红磷", "铝热剂", "四氯化碳", "BPA产品", "废机油", "含汞电池", "含汞产品", "农药", "受辐射污染产品", "氟利昂", "家电制冷剂"]
+      decision: "否决"
+      reason: "有毒、有害、易燃、易爆、环境或健康风险高。"
 
-    - condition: "purchase_plus_freight_to_revenue_ratio > 65%"
-      action: "校准后综合达成率最高不超过50%。"
+    tobacco_nicotine:
+      examples: ["香烟", "雪茄", "含尼古丁电子烟", "尼古丁相关产品"]
+      decision: "否决"
+      reason: "烟草及尼古丁核心产品属于禁售敏感品类。"
+      exception: "不含尼古丁的部分周边配件需单独确认平台规则，不能默认可做。"
 
-    - condition: "存在明确侵权、认证、平台限制、强监管待确认风险"
-      action: "校准后综合达成率最高不超过60%，除非风险已被证据排除。"
+    animals_plants_related_products:
+      examples: ["植物", "种子", "杀虫剂", "动物制品", "濒危保护动物相关制品"]
+      decision: "否决或待确认风险"
+      reason: "可能涉及生物入侵、检疫、濒危物种和违法风险。"
 
-    - condition: "一次售后可能吃掉多单利润"
-      action: "校准后综合达成率最高不超过75%。"
+    prohibited_electronics:
+      examples: ["激光类产品", "盗版卫星电视机顶盒", "无线电通讯干扰器", "公共通讯干扰设备"]
+      decision: "否决"
+      reason: "可能伤害人体或干扰公共秩序。"
 
-  output_rule:
-    rule: "评分表中不加入维度0/否决项。评分表只展示维度1-4、原始综合达成率、校准后综合达成率、校准原因、是否触发硬性上限、最终结论。否决项评价放在1688推荐之后单独说明。"
+    prohibited_automotive_products:
+      examples: ["手机干扰器", "GPS干扰器", "雷达干扰器", "无线网络干扰器", "激光防护罩", "假车牌", "假车标", "安全带", "安全气囊"]
+      decision: "否决或待确认风险"
+      reason: "干扰通讯、假冒标识或涉及汽车安全关键件。"
+      special_rule:
+        - "干扰类、假车牌、假车标：直接否决。"
+        - "安全带、安全气囊等安全关键件：默认不建议触碰；除非有完整合规资质，否则否决或待确认风险。"
+        - "普通汽车替换件、装饰件、非安全关键小配件：不自动否决，进入维度1-4评估，但需在维度3评估安装、适配和售后风险。"
 
-  output_order:
-    - step: 1
-      name: "评分表"
-      rule: "先输出维度1-4的权重、单项达成率、加权贡献，再输出原始综合达成率和校准后综合达成率。不要把维度0/否决项放进评分表。"
+    gambling_lottery:
+      examples: ["彩票", "赌博机器", "投币式赌博机器", "非功能性老虎机"]
+      decision: "否决"
+      reason: "赌博与彩票相关产品平台禁售风险高。"
 
-    - step: 2
-      name: "推荐1688对应产品"
-      rule: "根据1688截图或文本，优先推荐匹配度最高的产品，并标注截图序号、价格、起批量、销量、店铺、匹配理由和风险点。"
+    currency_counterfeit_cash_equivalent:
+      examples: ["假币", "伪造纸币", "银行票据", "债券", "汇票", "股票证券", "仿冒产品制作设备", "现金等价物", "旅行支票", "储值产品"]
+      decision: "否决"
+      reason: "涉及伪造、金融合规或平台严令禁售。"
 
-    - step: 3
-      name: "否决项评价"
-      rule: "在评分表和1688推荐之后，再单独输出否决项有关评价。若未命中明确否决项，应写明：在通过否决项的前提下，本产品进入维度1-4综合评估。若存在待确认风险，应说明风险不直接淘汰，但会限制校准后综合达成率上限。"
+    offensive_controversial_products:
+      examples: ["宗教敏感商品", "性别歧视商品", "文化歧视商品", "种族歧视商品", "冒犯性商品", "违背公序良俗商品"]
+      decision: "否决"
+      reason: "涉及冒犯性、争议性、不良导向或平台处罚风险。"
 
-    - step: 4
-      name: "详细分析"
-      rule: "解释投产比、产品属性与需求、风险承受比、1688货源匹配度的主要判断依据。"
+intellectual_property_redline:
+  name: "知识产权侵权红线"
+  default_decision: "否决或待确认风险"
+  rule: "无授权的品牌、商标、版权、专利、动漫、影视、游戏、艺术复制品、虚拟数字版权产品，直接规避。"
+  items:
+    counterfeit_brand_infringement:
+      examples: ["盗版", "高仿", "仿牌", "品牌衍生品", "商标侵权", "专利侵权", "版权侵权"]
+      decision: "否决"
+      reason: "极易触发投诉、下架、冻结资金或封号。"
 
-    - step: 5
-      name: "最终结论"
-      rule: "最终结论以校准后综合达成率为主，但必须同时参考硬性上限、否决项和真实利润。"
+    ip_character_merchandise:
+      examples: ["动漫IP周边", "影视IP周边", "游戏人物周边", "毛绒玩具", "服饰", "箱包", "游戏机", "游戏光盘", "游戏卡"]
+      decision: "否决"
+      reason: "无官方授权时禁止做。"
 
-  output_fields:
-    scoring_table:
-      - "维度"
-      - "权重"
-      - "单项达成率"
-      - "加权贡献"
-      - "判断"
+    unauthorized_art_reproduction:
+      examples: ["艺术复制品", "无授权画作复制", "无授权商标/版权图案"]
+      decision: "否决"
+      reason: "涉及版权或商标权风险。"
 
-    comprehensive_fields:
-      - "原始综合达成率"
-      - "校准后综合达成率"
-      - "校准原因"
-      - "是否触发硬性上限"
-      - "最终结论"
+    copyrighted_virtual_digital_products:
+      examples: ["艺术品数字产品", "音乐", "戏曲", "影视资源", "教科书", "电子资料"]
+      decision: "否决"
+      reason: "受版权保护的虚拟或数字产品无授权禁止做。"
 
-  final_judgment_standards:
-    "90%-100%":
-      judgment: "建议做"
-      meaning: "产品整体条件优秀，可以进入小批量测试或正式推进。"
+  compatibility_brand_rule:
+    rule: "兼容品牌不自动等于侵权，但必须看表达方式。"
+    not_direct_veto:
+      - "标题中使用 for / Compatible with / Fits 等兼容表达，且无Logo、无仿冒包装、无官方授权暗示。"
+      - "商品介绍中的“品牌：XX 复制并检测”不作为品牌侵权依据，可忽略。"
+    high_risk_or_veto:
+      - "标题直接使用他人品牌作为自有商品品牌。"
+      - "主图、详情图、包装、产品本体出现他人Logo。"
+      - "图片、包装或文案暗示原厂、正品、授权、OEM、官方替代。"
+      - "外观、包装、图案高度模仿知名品牌或IP。"
+      - "使用动漫、影视、游戏人物、Logo、角色形象或受保护图案。"
 
-    "80%-89%":
-      judgment: "可以做，但建议先小批量测试"
-      meaning: "产品有机会，但仍需要验证物流、售后、匹配度或市场稳定性。"
+other_platform_prohibited:
+  name: "其他平台严令禁售品类"
+  default_decision: "否决"
+  items:
+    used_clothing_shoes:
+      examples: ["二手衣物", "二手鞋履"]
+      decision: "否决"
+      reason: "平台全面禁止上架。"
 
-    "65%-79%":
-      judgment: "谨慎做"
-      meaning: "存在明显短板，只适合低成本试错。"
+    composite_wood_products:
+      examples: ["合成木制眼镜架", "合成木制玩具", "可能释放有害气体的合成木制产品"]
+      decision: "否决或待确认风险"
+      reason: "可能涉及有害气体释放和平台禁售。"
+```
 
-    "45%-64%":
-      judgment: "不建议优先做"
-      meaning: "机会一般，除非有特殊资源优势。"
+non_veto_but_high_risk:  
+name: "不直接否决，但必须降低维度3风险承受比的情况"  
+rule: "以下产品不一定属于维度0否决项，但不能按普通低风险产品处理。"  
+examples:  
+- "带电产品、电器件、传感器、开关、电源、充电器、功放板"  
+- "尺寸、接口、型号、适配复杂的汽车件、机械件、工业件"  
+- "尖锐但属于普通工具或配件的产品"  
+- "重货、体积件、易碎品、玻璃/陶瓷/精密件"  
+- "需要安装、调试、兼容判断的产品"  
+- "效果主观、体验主观、容易产生差评的产品"  
+- "退货后难二次销售的产品"  
+- "一次售后可能吃掉多单利润的产品"  
+action:  
+- "进入维度1-4评估。"  
+- "在维度3风险承受比中降低单项达成率。"  
+- "如一次售后可能吃掉多单利润，校准后综合达成率最高不超过75%。"
 
-    "0%-44%":
-      judgment: "不建议做"
-      meaning: "风险、利润或匹配度不足。"
+evidence_checklist:  
+name: "否决项证据检查清单"  
+check_items:  
+- "亚马逊标题是否出现他人品牌、IP、受保护型号或授权暗示"  
+- "主图/详情图/包装/产品本体是否出现Logo、IP形象、版权图案"  
+- "产品是否属于食品、药品、补充剂、化妆品、医疗设备、母婴儿童、成人、珠宝贵金属等强监管品类"  
+- "产品是否涉及武器、仿真武器、尖锐危险物、开锁、窃听、隐私侵犯、赌博、伪造、危险化学品"  
+- "产品是否属于烟草/尼古丁、动植物、种子、农药、濒危动物制品"  
+- "产品是否属于激光、干扰器、盗版设备、汽车安全关键件、假车牌/假车标"  
+- "产品是否需要CPC、FDA、FCC、UL、CE、RoHS、儿童产品证书、医疗器械注册或其他强制认证"  
+- "是否存在平台禁售、目标站点法律限制、跨境通关限制或物流禁运问题"
+
+output_rule:  
+position: "评分表和1688推荐之后单独输出"  
+do_not_include_in_scoring_table: true  
+output_fields:  
+- "否决项状态"  
+- "是否命中明确否决项"  
+- "是否存在待确认风险"  
+- "对应风险类别"  
+- "判断依据"  
+- "对校准后综合达成率的影响"  
+- "下一步确认事项"
+
+calibrated_cap_connection:  
+rule: "维度0会影响是否进入综合评估，以及校准后综合达成率上限。"  
+caps:  
+clear_veto:  
+condition: "命中明确否决项"  
+action: "直接不建议做，不进行综合达成率校准。"
+
+```
+  pending_regulatory_or_ip_risk:
+    condition: "存在明确侵权、认证、平台限制、强监管待确认风险"
+    action: "校准后综合达成率最高不超过60%，除非风险已被证据排除。"
+
+  after_sales_profit_damage:
+    condition: "一次售后可能吃掉多单利润"
+    action: "校准后综合达成率最高不超过75%。"
+
+  safety_or_installation_complexity:
+    condition: "安全、安装、适配、带电、尖锐、重货、易碎等风险明显，但未达到否决项"
+    action: "不直接否决，但必须在维度3降低单项达成率。"
+```
+
+standard_output_sentences:  
+pass: "在通过否决项的前提下，本产品进入维度1-4综合评估。"  
+pending: "本产品暂未命中明确否决项，但存在待确认风险；该风险不直接淘汰，但会限制校准后综合达成率上限。"  
+veto: "本产品命中明确否决项，直接判定不建议做，不进入维度1-4综合评估。"
