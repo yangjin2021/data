@@ -1,323 +1,112 @@
-veto_items:  
-name: "否决项"  
-weight: "不参与权重"  
-purpose: "先判断该产品是否存在明确不能做、强烈不建议做、或需要先确认的重大风险。否决项不是评分维度，不计算单项达成率，也不计入综合达成率。"
+comprehensive_achievement_calibration:  
+name: "综合达成率校准规则"  
+enabled: true  
+purpose: "解决规则过于保守导致优质商品综合达成率偏低的问题。原始综合达成率用于内部严谨判断，校准后综合达成率用于最终决策展示。"
 
-evaluation_position:  
-rule: "否决项必须在维度1-4之前判断。只有未命中明确否决项，才继续进入维度1-4综合评估。"
-
-result_types:  
-pass:  
-meaning: "未发现明确否决风险，可以继续进入维度1-4评估。"  
-action: "continue_to_dimension_1_to_4"
+core_logic:  
+raw_comprehensive_achievement:  
+definition: "按照维度1-4的权重、单项达成率、加权贡献计算出的原始综合达成率。"  
+rule: "原始综合达成率保留，用于判断产品真实短板。"
 
 ```
-veto:
-  meaning: "命中明确否决项，直接判定不建议做，不再进入维度1-4综合评估。"
-  action: "stop_evaluation"
-
-pending_confirmation:
-  meaning: "没有足够证据直接否决，但存在合规、侵权、认证、平台限制、安全或资质疑点。"
-  action: "可以继续评估，但必须在风险承受比中明显降低达成率，并列出待确认事项。"
+calibrated_comprehensive_achievement:
+  definition: "在原始综合达成率基础上，根据规则严苛程度进行校准后的最终展示结果。"
+  rule: "最终结论优先参考校准后综合达成率，但否决项和硬性红线仍然优先。"
 ```
 
-veto_categories:  
-prohibited_or_restricted:  
-- "平台明确禁售或高度限制的商品"  
-- "违法、违规、危险或容易被平台下架的商品"  
-- "需要特殊资质但卖家无法确认具备资质的商品"
+calibration_table:  
+"90%-100%":  
+calibrated_range: "96%-100%"  
+meaning: "极优产品，原始规则下已经非常强，校准后接近满达成。"
 
 ```
-intellectual_property_risk:
-  - "标题、图片、包装或详情页存在明显品牌侵权、Logo侵权、IP形象侵权"
-  - "仿原厂、仿大牌、仿专利外观、仿知名设计"
-  - "暗示官方、授权、原厂、OEM正品，但没有证据支持"
+"80%-89%":
+  calibrated_range: "93%-96%"
+  meaning: "优秀产品，多数关键条件很好，只存在少量可控短板。"
 
-compliance_and_certification_risk:
-  - "食品、药品、膳食补充剂、医疗健康类"
-  - "儿童用品、母婴用品、宠物入口类产品"
-  - "带电产品、电池产品、充电产品、强认证电子电器"
-  - "车用安全件、应急救援件、承重件、压力件"
-  - "接触食品、皮肤、口腔、眼睛、人体内部的产品"
+"70%-79%":
+  calibrated_range: "90%-93%"
+  meaning: "原规则下达到70%以上，说明该产品已经具备较强可做性；校准后视为优秀区间。"
 
-safety_or_liability_risk:
-  - "可能造成人身伤害、火灾、触电、中毒、误用后严重后果的产品"
-  - "安装错误容易导致设备损坏或安全事故的产品"
-  - "退货、投诉、差评、索赔风险明显偏高的产品"
+"60%-69%":
+  calibrated_range: "80%-89%"
+  meaning: "原规则下属于中上水平，校准后视为可以小批量测试或谨慎推进。"
+
+"50%-59%":
+  calibrated_range: "65%-79%"
+  meaning: "有一定机会，但仍存在明显短板，需要控制采购量。"
+
+"40%-49%":
+  calibrated_range: "45%-64%"
+  meaning: "机会一般，除非有特殊优势，否则不建议优先做。"
+
+"0%-39%":
+  calibrated_range: "0%-44%"
+  meaning: "基础条件较弱，校准后仍不建议做。"
 ```
 
-special_notes:  
-compatible_brand_rule:  
-rule: "标题中出现 for、Compatible With、Fits 等兼容表达，不自动视为侵权；但图片、包装、详情页如出现品牌Logo、原厂包装、授权暗示、仿原厂设计，则属于高风险。"
+recommended_formula:  
+rule: "如果需要用公式表达，可使用分段校准，不建议简单线性放大。"  
+formula:  
+if_raw_achievement_gte_70: "calibrated_achievement = 90% + (raw_comprehensive_achievement - 70%) * 0.33"  
+if_raw_achievement_between_60_and_69: "calibrated_achievement = 80% + (raw_comprehensive_achievement - 60%) * 1.0"  
+if_raw_achievement_between_50_and_59: "calibrated_achievement = 65% + (raw_comprehensive_achievement - 50%) * 1.4"  
+if_raw_achievement_lt_50: "calibrated_achievement = raw_comprehensive_achievement"  
+max_value: "100%"
+
+hard_limits:  
+- condition: "命中否决项"  
+action: "直接不建议做，不进行综合达成率校准。"
 
 ```
-ignored_brand_field:
-  rule: "商品介绍中类似“品牌：XX 复制并检测”的字段，不作为品牌侵权依据，除非标题、图片、包装或详情页也出现相关品牌风险。"
-```
-
-required_output_fields:  
-- "否决项结论"  
-- "是否命中明确否决"  
-- "是否存在待确认风险"  
-- "主要风险原因"  
-- "是否进入维度1-4评估"
-
-dimension_1_roi:  
-name: "维度1：投产比"  
-weight: "50%"  
-precondition: "必须先完成否决项检查。未命中明确否决项后，才进入本维度。"  
-purpose: "判断扣除真实成本后，该产品是否仍有足够利润空间。重点不是看1688价格和亚马逊售价差，而是看采购、包装、跨境运费、平台费用、FBA/配送费用、合作伙伴佣金、售后全损预留后的真实利润。"
-
-core_principles:  
-ad_cost:  
-include: false  
-rule: "不计算广告费。广告费不进入基础投产比判断。"
-
-```
-partner_commission:
-  include: true
-  formula: "amazon_revenue * 10%"
-  rule: "合作伙伴佣金固定按亚马逊销售额的10%计算，不可省略。"
-
-after_sales_loss:
-  include: true
-  rule: "一旦发生售后，默认货物全损，不按可回收库存处理。"
-
-actual_quote_priority:
-  rule: "如果已经知道真实运费、真实FBA费用、真实平台扣费，则优先使用真实数据，不使用估算公式。"
-```
-
-currency_and_revenue:  
-amazon_revenue:  
-definition: "亚马逊商品实际销售额，默认使用购物车售价，不含用户额外支付但卖家不可完全获得的费用。"
-
-```
-exchange_rate:
-  rule: "美元售价需要换算为人民币时，使用当前保守汇率；如无明确汇率，可按1美元=7.1人民币进行保守估算。"
-
-payment_loss:
-  default_range: "1%-3%"
-  formula: "amazon_revenue * payment_loss_rate"
-```
-
-cost_items:  
-purchase_cost:  
-definition: "1688采购成本"  
-rule: "优先读取用户提供的1688价格；如有多个规格，必须选择与亚马逊商品最匹配的规格。"
-
-```
-domestic_shipping_cost:
-  definition: "国内运费"
-  rule: "优先读取1688运费；如果未知，按保守值预留。"
-
-packaging_cost:
-  definition: "包装成本"
-  default_range: "2-10元/件"
-  rule: "普通小件可低预留；易碎、尖锐、带电、套装、多件装、重货必须提高预留。"
-
-freight_cost:
-  definition: "跨境头程/跨境物流成本"
-  rule: "必须使用计费重量，不可只看实际重量。"
-
-amazon_referral_fee:
-  definition: "亚马逊佣金"
-  default_rate: "15%"
-  formula: "amazon_revenue * amazon_referral_fee_rate"
-  rule: "优先使用后台实际类目佣金；未知时普通类目按15%保守估算。"
-
-fba_or_delivery_fee:
-  definition: "FBA费用或配送费用"
-  rule: "优先使用后台测算；未知时必须按产品尺寸、重量、配送方式保守估算。"
-
-partner_commission:
-  definition: "合作伙伴佣金"
-  rate: "10%"
-  formula: "amazon_revenue * 10%"
-  rule: "必须扣除，不可省略。"
-
-after_sales_full_loss_reserve:
-  definition: "售后全损预留"
-  default_ranges:
-    low_risk: "3%-5%"
-    medium_risk: "8%-12%"
-    high_risk: "15%-25%"
-  formula: "amazon_revenue * estimated_after_sales_rate"
-  rule: "发生售后时按全损处理，不假设退回后可二次销售。"
-
-compliance_label_manual_cost:
-  definition: "合规、标签、说明书、认证摊销"
-  rule: "带电、儿童、宠物入口、车用安全、应急救援、医疗健康、食品接触等产品必须预留。"
-```
-
-freight_calculation:  
-chargeable_weight_kg:  
-formula: "max(actual_weight_kg, volumetric_weight_kg)"  
-rule: "计费重量取实际重量和材积重量中的较大值。"
-
-```
-volumetric_weight_kg:
-  normal_channel:
-    formula: "length_cm * width_cm * height_cm / 6000"
-  conservative_channel:
-    formula: "length_cm * width_cm * height_cm / 5000"
-  rule: "如果不确定物流渠道，优先使用保守渠道。"
-
-freight_cost:
-  if_actual_quote_available: "use_actual_quote_first"
-  formula: "chargeable_weight_kg * freight_rate_per_kg + handling_fee + surcharge"
-  rule: "如果货代已经给出真实报价，真实报价优先于公式。"
-
-surcharge_items:
-  - "带电产品附加费"
-  - "含磁产品附加费"
-  - "液体/粉末/膏体附加费"
-  - "尖锐产品附加费"
-  - "超长/超宽/超重附加费"
-  - "特殊包装附加费"
-  - "偏远仓/特殊渠道附加费"
-```
-
-key_formulas:  
-purchase_total_cost:  
-formula: "purchase_cost + domestic_shipping_cost + packaging_cost"
-
-```
-pre_fee_remaining:
-  formula: "amazon_revenue - purchase_cost - domestic_shipping_cost - packaging_cost - freight_cost"
-
-pre_fee_remaining_ratio:
-  formula: "(amazon_revenue - purchase_cost - domestic_shipping_cost - packaging_cost - freight_cost) / amazon_revenue"
-
-freight_to_revenue_ratio:
-  formula: "freight_cost / amazon_revenue"
-
-purchase_plus_freight_to_revenue_ratio:
-  formula: "(purchase_cost + domestic_shipping_cost + packaging_cost + freight_cost) / amazon_revenue"
-
-core_cost_after_amazon_fee_and_partner_commission:
-  formula: "amazon_revenue - purchase_cost - domestic_shipping_cost - packaging_cost - freight_cost - amazon_referral_fee - fba_or_delivery_fee - partner_commission"
-
-estimated_total_cost:
-  formula: "purchase_cost + domestic_shipping_cost + packaging_cost + freight_cost + amazon_referral_fee + fba_or_delivery_fee + partner_commission + after_sales_full_loss_reserve + payment_loss + compliance_label_manual_cost"
-
-real_gross_profit:
-  formula: "amazon_revenue - estimated_total_cost"
-
-real_gross_margin:
-  formula: "real_gross_profit / amazon_revenue"
-
-real_roi:
-  formula: "real_gross_profit / purchase_total_cost"
-```
-
-freight_red_flags:  
-freight_to_revenue_ratio:  
-healthy: "<=20%"  
-acceptable: "20%-30%"  
-cautious: "30%-40%"  
-high_risk: "40%-50%"  
-reject: ">50%"  
-rule: "跨境运费占售价超过50%时，原则上不建议做。"
-
-```
-purchase_plus_freight_to_revenue_ratio:
-  healthy: "<=35%"
-  acceptable: "35%-45%"
-  cautious: "45%-55%"
-  high_risk: "55%-65%"
-  reject: ">65%"
-  rule: "采购、国内运费、包装、跨境运费合计超过销售额65%时，原则上不建议做。"
-
-pre_fee_remaining_ratio:
-  healthy: ">=50%"
-  acceptable: "40%-50%"
-  cautious: "30%-40%"
-  high_risk: "20%-30%"
-  reject: "<20%"
-  rule: "扣除采购、包装、国内运费、跨境运费后，剩余空间低于20%时，原则上不建议做。"
-
-core_cost_after_amazon_fee_and_partner_commission:
-  healthy: ">=25% of amazon_revenue"
-  cautious: "15%-25% of amazon_revenue"
-  high_risk: "5%-15% of amazon_revenue"
-  reject: "<5% of amazon_revenue or negative"
-  rule: "扣除采购、包装、跨境运费、Amazon佣金、FBA/配送、合作伙伴佣金后，如果剩余空间低于5%或为负，原则上不建议做。"
-```
-
-achievement_rate_standards:  
-"89%-100%":  
-condition: "扣除采购、包装、跨境运费、Amazon佣金、FBA/配送、10%合作伙伴佣金、售后全损预留后，仍有明显利润空间；降价10%-15%后仍不容易亏损。"  
-judgment: "投产比优秀，可以继续评估。"
-
-```
-"67%-88%":
-  condition: "扣除所有核心成本后仍有利润，但对售后率、物流费用、平台扣费或汇率波动比较敏感。"
-  judgment: "可以考虑，但需要保守测算。"
-
-"44%-66%":
-  condition: "表面有利润，但扣除合作伙伴佣金和售后全损后，利润空间一般；一次售后可能吃掉多单利润。"
-  judgment: "谨慎做，只适合小批量测试。"
-
-"22%-43%":
-  condition: "利润较薄，稍有售后、退货、运费上涨、价格下降或FBA费用偏高就可能亏损。"
-  judgment: "不建议优先做。"
-
-"0%-21%":
-  condition: "扣除真实成本后基本不可做，或采购+运费已经接近销售额。"
-  judgment: "不建议做。"
-```
-
-hard_rules:  
-- condition: "freight_to_revenue_ratio > 50%"  
-action: "dimension_1_max_achievement = 25%"  
-judgment: "运费占售价过高，原则上不建议做。"
-
-```
-- condition: "purchase_plus_freight_to_revenue_ratio > 65%"
-  action: "reject_or_not_recommended = true"
-  judgment: "采购+包装+运费已经吃掉大部分销售额，原则上不建议做。"
-
-- condition: "pre_fee_remaining_ratio < 20%"
-  action: "reject_or_not_recommended = true"
-  judgment: "扣除采购和跨境运费后剩余空间不足，后续平台费用和售后无法承受。"
+- condition: "真实毛利润 <= 0"
+  action: "校准后综合达成率最高不超过40%。"
 
 - condition: "core_cost_after_amazon_fee_and_partner_commission <= 0"
-  action: "reject_or_not_recommended = true"
-  judgment: "扣除Amazon费用和10%合作伙伴佣金后已经无利润，直接不建议。"
+  action: "校准后综合达成率最高不超过40%。"
 
-- condition: "real_gross_profit <= 0"
-  action: "reject_or_not_recommended = true"
-  judgment: "真实毛利润为负，直接放弃。"
+- condition: "freight_to_revenue_ratio > 50%"
+  action: "校准后综合达成率最高不超过50%。"
 
-- condition: "price_drop_10_percent_profit <= 0"
-  action: "dimension_1_max_achievement = 40%"
-  judgment: "降价10%后亏损，价格承压能力弱。"
+- condition: "purchase_plus_freight_to_revenue_ratio > 65%"
+  action: "校准后综合达成率最高不超过50%。"
 
-- condition: "one_after_sales_loss_consumes_multiple_orders_profit == true"
-  action: "dimension_1_max_achievement = 40%"
-  judgment: "一次售后吃掉多单利润，不适合新手或小团队。"
+- condition: "存在明确侵权、认证、平台限制、强监管待确认风险"
+  action: "校准后综合达成率最高不超过60%，除非风险已被证据排除。"
+
+- condition: "一次售后可能吃掉多单利润"
+  action: "校准后综合达成率最高不超过75%。"
 ```
 
-required_output_fields:  
-- "亚马逊售价"  
-- "1688采购成本"  
-- "国内运费/包装成本"  
-- "实际重量"  
-- "材积重量"  
-- "计费重量"  
-- "跨境运费"  
-- "运费占售价比例"  
-- "采购+运费占售价比例"  
-- "Amazon佣金"  
-- "FBA费用/配送费用"  
-- "合作伙伴佣金"  
-- "售后全损预留"  
-- "预估真实总成本"  
-- "真实毛利润"  
-- "真实毛利率"  
-- "真实投产比"  
-- "维度1单项达成率"  
-- "维度1判断"
+output_rule:  
+rule: "评分表中同时输出原始综合达成率和校准后综合达成率。最终结论以校准后综合达成率为主，但必须保留原始综合达成率用于解释风险。"
 
-final_rule:  
-rule: "维度1必须先判断运费红线，再判断完整利润。不能只因为1688采购价低就提高投产比达成率。若真实运费或计费重量显示物流成本过高，应优先降低维度1达成率，严重时直接给出不建议做。"
+output_fields:  
+- "原始综合达成率"  
+- "校准后综合达成率"  
+- "校准原因"  
+- "是否触发硬性上限"  
+- "最终结论"
+
+final_judgment_standards:  
+"90%-100%":  
+judgment: "建议做"  
+meaning: "产品整体条件优秀，可以进入小批量测试或正式推进。"
+
+```
+"80%-89%":
+  judgment: "可以做，但建议先小批量测试"
+  meaning: "产品有机会，但仍需要验证物流、售后、匹配度或市场稳定性。"
+
+"65%-79%":
+  judgment: "谨慎做"
+  meaning: "存在明显短板，只适合低成本试错。"
+
+"45%-64%":
+  judgment: "不建议优先做"
+  meaning: "机会一般，除非有特殊资源优势。"
+
+"0%-44%":
+  judgment: "不建议做"
+  meaning: "风险、利润或匹配度不足。"
+```
