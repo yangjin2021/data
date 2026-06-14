@@ -1,112 +1,133 @@
-comprehensive_achievement_calibration:  
-name: "综合达成率校准规则"  
-enabled: true  
-purpose: "解决规则过于保守导致优质商品综合达成率偏低的问题。原始综合达成率用于内部严谨判断，校准后综合达成率用于最终决策展示。"
+comprehensive_achievement_calibration:
+  name: "综合达成率校准规则"
+  enabled: true
+  purpose: "解决规则过于保守导致优质商品综合达成率偏低的问题。原始综合达成率用于内部严谨判断，校准后综合达成率用于最终决策展示。"
 
-core_logic:  
-raw_comprehensive_achievement:  
-definition: "按照维度1-4的权重、单项达成率、加权贡献计算出的原始综合达成率。"  
-rule: "原始综合达成率保留，用于判断产品真实短板。"
+  core_logic:
+    raw_comprehensive_achievement:
+      definition: "按照维度1-4的权重、单项达成率、加权贡献计算出的原始综合达成率。"
+      rule: "原始综合达成率必须保留，用于解释产品真实短板、风险来源和利润结构。"
 
-```
-calibrated_comprehensive_achievement:
-  definition: "在原始综合达成率基础上，根据规则严苛程度进行校准后的最终展示结果。"
-  rule: "最终结论优先参考校准后综合达成率，但否决项和硬性红线仍然优先。"
-```
+    calibrated_comprehensive_achievement:
+      definition: "在原始综合达成率基础上，根据规则严苛程度进行分段校准后的最终展示结果。"
+      rule: "最终结论优先参考校准后综合达成率，但否决项、硬性红线和利润硬伤拥有最高优先级。"
 
-calibration_table:  
-"90%-100%":  
-calibrated_range: "96%-100%"  
-meaning: "极优产品，原始规则下已经非常强，校准后接近满达成。"
+  calibration_table:
+    "90%-100%":
+      calibrated_range: "96%-100%"
+      meaning: "极优产品，原始规则下已经非常强，校准后接近满达成。"
 
-```
-"80%-89%":
-  calibrated_range: "93%-96%"
-  meaning: "优秀产品，多数关键条件很好，只存在少量可控短板。"
+    "80%-89%":
+      calibrated_range: "93%-96%"
+      meaning: "优秀产品，多数关键条件很好，只存在少量可控短板。"
 
-"70%-79%":
-  calibrated_range: "90%-93%"
-  meaning: "原规则下达到70%以上，说明该产品已经具备较强可做性；校准后视为优秀区间。"
+    "70%-79%":
+      calibrated_range: "90%-93%"
+      meaning: "原规则下达到70%以上，说明该产品已经具备较强可做性；校准后视为优秀区间。"
 
-"60%-69%":
-  calibrated_range: "80%-89%"
-  meaning: "原规则下属于中上水平，校准后视为可以小批量测试或谨慎推进。"
+    "60%-69%":
+      calibrated_range: "80%-89%"
+      meaning: "原规则下属于中上水平，校准后视为可以小批量测试或谨慎推进。"
 
-"50%-59%":
-  calibrated_range: "65%-79%"
-  meaning: "有一定机会，但仍存在明显短板，需要控制采购量。"
+    "50%-59%":
+      calibrated_range: "65%-79%"
+      meaning: "有一定机会，但仍存在明显短板，需要控制采购量。"
 
-"40%-49%":
-  calibrated_range: "45%-64%"
-  meaning: "机会一般，除非有特殊优势，否则不建议优先做。"
+    "40%-49%":
+      calibrated_range: "45%-64%"
+      meaning: "机会一般，除非有特殊优势，否则不建议优先做。"
 
-"0%-39%":
-  calibrated_range: "0%-44%"
-  meaning: "基础条件较弱，校准后仍不建议做。"
-```
+    "0%-39%":
+      calibrated_range: "0%-44%"
+      meaning: "基础条件较弱，校准后仍不建议做。"
 
-recommended_formula:  
-rule: "如果需要用公式表达，可使用分段校准，不建议简单线性放大。"  
-formula:  
-if_raw_achievement_gte_70: "calibrated_achievement = 90% + (raw_comprehensive_achievement - 70%) * 0.33"  
-if_raw_achievement_between_60_and_69: "calibrated_achievement = 80% + (raw_comprehensive_achievement - 60%) * 1.0"  
-if_raw_achievement_between_50_and_59: "calibrated_achievement = 65% + (raw_comprehensive_achievement - 50%) * 1.4"  
-if_raw_achievement_lt_50: "calibrated_achievement = raw_comprehensive_achievement"  
-max_value: "100%"
+  recommended_formula:
+    rule: "如需公式表达，使用分段校准，不使用简单线性放大。"
+    formula:
+      if_raw_achievement_gte_70: "calibrated_achievement = 90% + (raw_comprehensive_achievement - 70%) * 0.33"
+      if_raw_achievement_between_60_and_69: "calibrated_achievement = 80% + (raw_comprehensive_achievement - 60%) * 1.0"
+      if_raw_achievement_between_50_and_59: "calibrated_achievement = 65% + (raw_comprehensive_achievement - 50%) * 1.4"
+      if_raw_achievement_lt_50: "calibrated_achievement = raw_comprehensive_achievement"
+      max_value: "100%"
 
-hard_limits:  
-- condition: "命中否决项"  
-action: "直接不建议做，不进行综合达成率校准。"
+  hard_limits:
+    - condition: "命中明确否决项"
+      action: "直接判定不建议做，不进行综合达成率校准。"
 
-```
-- condition: "真实毛利润 <= 0"
-  action: "校准后综合达成率最高不超过40%。"
+    - condition: "真实毛利润 <= 0"
+      action: "校准后综合达成率最高不超过40%。"
 
-- condition: "core_cost_after_amazon_fee_and_partner_commission <= 0"
-  action: "校准后综合达成率最高不超过40%。"
+    - condition: "core_cost_after_amazon_fee_and_partner_commission <= 0"
+      action: "校准后综合达成率最高不超过40%。"
 
-- condition: "freight_to_revenue_ratio > 50%"
-  action: "校准后综合达成率最高不超过50%。"
+    - condition: "freight_to_revenue_ratio > 50%"
+      action: "校准后综合达成率最高不超过50%。"
 
-- condition: "purchase_plus_freight_to_revenue_ratio > 65%"
-  action: "校准后综合达成率最高不超过50%。"
+    - condition: "purchase_plus_freight_to_revenue_ratio > 65%"
+      action: "校准后综合达成率最高不超过50%。"
 
-- condition: "存在明确侵权、认证、平台限制、强监管待确认风险"
-  action: "校准后综合达成率最高不超过60%，除非风险已被证据排除。"
+    - condition: "存在明确侵权、认证、平台限制、强监管待确认风险"
+      action: "校准后综合达成率最高不超过60%，除非风险已被证据排除。"
 
-- condition: "一次售后可能吃掉多单利润"
-  action: "校准后综合达成率最高不超过75%。"
-```
+    - condition: "一次售后可能吃掉多单利润"
+      action: "校准后综合达成率最高不超过75%。"
 
-output_rule:  
-rule: "评分表中同时输出原始综合达成率和校准后综合达成率。最终结论以校准后综合达成率为主，但必须保留原始综合达成率用于解释风险。"
+  output_rule:
+    rule: "评分表中不加入维度0/否决项。评分表只展示维度1-4、原始综合达成率、校准后综合达成率、校准原因、是否触发硬性上限、最终结论。否决项评价放在1688推荐之后单独说明。"
 
-output_fields:  
-- "原始综合达成率"  
-- "校准后综合达成率"  
-- "校准原因"  
-- "是否触发硬性上限"  
-- "最终结论"
+  output_order:
+    - step: 1
+      name: "评分表"
+      rule: "先输出维度1-4的权重、单项达成率、加权贡献，再输出原始综合达成率和校准后综合达成率。不要把维度0/否决项放进评分表。"
 
-final_judgment_standards:  
-"90%-100%":  
-judgment: "建议做"  
-meaning: "产品整体条件优秀，可以进入小批量测试或正式推进。"
+    - step: 2
+      name: "推荐1688对应产品"
+      rule: "根据1688截图或文本，优先推荐匹配度最高的产品，并标注截图序号、价格、起批量、销量、店铺、匹配理由和风险点。"
 
-```
-"80%-89%":
-  judgment: "可以做，但建议先小批量测试"
-  meaning: "产品有机会，但仍需要验证物流、售后、匹配度或市场稳定性。"
+    - step: 3
+      name: "否决项评价"
+      rule: "在评分表和1688推荐之后，再单独输出否决项有关评价。若未命中明确否决项，应写明：在通过否决项的前提下，本产品进入维度1-4综合评估。若存在待确认风险，应说明风险不直接淘汰，但会限制校准后综合达成率上限。"
 
-"65%-79%":
-  judgment: "谨慎做"
-  meaning: "存在明显短板，只适合低成本试错。"
+    - step: 4
+      name: "详细分析"
+      rule: "解释投产比、产品属性与需求、风险承受比、1688货源匹配度的主要判断依据。"
 
-"45%-64%":
-  judgment: "不建议优先做"
-  meaning: "机会一般，除非有特殊资源优势。"
+    - step: 5
+      name: "最终结论"
+      rule: "最终结论以校准后综合达成率为主，但必须同时参考硬性上限、否决项和真实利润。"
 
-"0%-44%":
-  judgment: "不建议做"
-  meaning: "风险、利润或匹配度不足。"
-```
+  output_fields:
+    scoring_table:
+      - "维度"
+      - "权重"
+      - "单项达成率"
+      - "加权贡献"
+      - "判断"
+
+    comprehensive_fields:
+      - "原始综合达成率"
+      - "校准后综合达成率"
+      - "校准原因"
+      - "是否触发硬性上限"
+      - "最终结论"
+
+  final_judgment_standards:
+    "90%-100%":
+      judgment: "建议做"
+      meaning: "产品整体条件优秀，可以进入小批量测试或正式推进。"
+
+    "80%-89%":
+      judgment: "可以做，但建议先小批量测试"
+      meaning: "产品有机会，但仍需要验证物流、售后、匹配度或市场稳定性。"
+
+    "65%-79%":
+      judgment: "谨慎做"
+      meaning: "存在明显短板，只适合低成本试错。"
+
+    "45%-64%":
+      judgment: "不建议优先做"
+      meaning: "机会一般，除非有特殊资源优势。"
+
+    "0%-44%":
+      judgment: "不建议做"
+      meaning: "风险、利润或匹配度不足。"
