@@ -16,6 +16,7 @@ dimension_1_roi:
       rule: "一旦发生售后，默认货物全损，不按可回收库存处理。"
     actual_quote_priority:
       rule: "如果已经知道真实运费、真实FBA费用、真实平台扣费，则优先使用真实数据，不使用估算公式。"
+
   currency_and_revenue:
     amazon_revenue:
       definition: "亚马逊商品实际销售额，默认使用购物车售价，不含用户额外支付但卖家不可完全获得的费用。"
