@@ -63,6 +63,14 @@ knowledge/flomo-notes/2023/flomo-external-2023-part1b-original.md
 knowledge/flomo-notes/2024/flomo-external-2024.md
 ```
 
+### 2025
+
+已开始分块迁移，已写入：
+
+```text
+knowledge/flomo-notes/2025/flomo-external-2025-part1a.md
+```
+
 ### 2026
 
 尝试写入整文件时被工具安全检查拦截，因此已建立索引：
@@ -76,7 +84,7 @@ knowledge/flomo-notes/2026/flomo-external-2026-index.md
 ## 待核对 / 待迁移
 
 - `2023` 外部资料：已迁移 part1a 和 part1b-original，仍需核对尾段。
-- `2025` 外部资料：本地原文存在，文件较大，后续需要分块迁移。
+- `2025` 外部资料：已迁移 part1a，剩余内容继续分块迁移。
 - `2026` 外部资料：已有索引，整文件和 general 小分片均被拦，后续只能继续更小粒度尝试或保留索引。
 
 ## 建议结构
@@ -95,4 +103,4 @@ knowledge/flomo-notes/
 
 ## 当前状态
 
-`io` 仓库中的 2022 主文件基本收口；`data` 已按新路径迁移 2022、2023 部分、2024；2025 待分块迁移；2026 已建立索引，整文件与 general 小分片均被拦。
+`io` 仓库中的 2022 主文件基本收口；`data` 已按新路径迁移 2022、2023 部分、2024、2025 part1a；2026 已建立索引，整文件与 general 小分片均被拦。
