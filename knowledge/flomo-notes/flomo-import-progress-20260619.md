@@ -99,9 +99,10 @@ knowledge/flomo-notes/2026/flomo-external-2026-index.md
 随后改为单条拆分，已成功写入：
 
 ```text
-knowledge/flomo-notes/2026/flomo-external-2026-single-business-20260117.md
-knowledge/flomo-notes/2026/flomo-external-2026-single-ai-20260106.md
-knowledge/flomo-notes/2026/flomo-external-2026-single-trading-20260402.md
+knowledge/flomo-notes/2026/flomo-external-2026-business-single-20260121.md
+knowledge/flomo-notes/2026/flomo-external-2026-business-single-20260117.md
+knowledge/flomo-notes/2026/flomo-external-2026-ai-single-20260106.md
+knowledge/flomo-notes/2026/flomo-external-2026-trading-single-20260402.md
 ```
 
 后续可继续按单条拆分；如果单条仍被拦，只保留索引和来源日期，不改写正文。
@@ -110,7 +111,7 @@ knowledge/flomo-notes/2026/flomo-external-2026-single-trading-20260402.md
 
 - `2023` 外部资料：主体已迁移，尾段核对记录已建立；如重新读取到完整原文，再补齐。
 - `2025` 外部资料：主体已迁移，两个被拦条目保留索引。
-- `2026` 外部资料：已成功迁移 3 条普通条目；剩余关系/红丸/部分商机条目继续按单条尝试或保留索引。
+- `2026` 外部资料：已成功迁移 4 条普通条目；剩余关系/红丸/版权风险/私人感想条目继续按单条尝试或保留索引。
 
 ## 建议结构
 
@@ -128,4 +129,4 @@ knowledge/flomo-notes/
 
 ## 当前状态
 
-`io` 仓库中的 2022 主文件基本收口；`data` 已按新路径迁移 2022、2023 主体、2024、2025 主体；2026 已建立索引并成功迁移 3 条普通单条。
+`io` 仓库中的 2022 主文件基本收口；`data` 已按新路径迁移 2022、2023 主体、2024、2025 主体；2026 已建立索引并成功迁移 4 条普通单条。
