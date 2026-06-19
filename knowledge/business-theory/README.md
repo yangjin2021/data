@@ -117,6 +117,26 @@
 
 ---
 
+### 7. 场景营销模型工具箱
+
+文件：`templates/scenario-marketing-model-toolbox.md`
+
+用途：把触发场景、JTBD、PAS、Before-After-Bridge、场景营销矩阵结合起来，用于批量生产短视频、海报、朋友圈、私聊成交话术。
+
+适合：当项目已经确定目标客户，需要做具体宣传内容、短视频脚本、海报文案、获客话术时使用。
+
+---
+
+### 8. 目标客户人群质量判断清单
+
+文件：`templates/customer-segment-quality-checklist.md`
+
+用途：判断一个人群是不是适合当前阶段去服务、获客、销售和交付。
+
+适合：在选择目标客户、筛选第一批测试用户、判断“好人群 / 坏人群”时使用。
+
+---
+
 ## 使用顺序
 
 ### 快速判断一个想法
@@ -143,6 +163,33 @@
 适合问题：
 
 > 这个项目到底能不能做？怎么做？风险在哪里？下一步是什么？
+
+---
+
+### 筛选目标客户人群
+
+使用：
+
+1. `templates/customer-segment-quality-checklist.md`
+2. `model-classification-and-analysis-process.md` 中的“确定目标客户和真实需求”部分
+
+适合问题：
+
+> 哪类客户最痛、最愿意付钱、最好触达、我当前最能交付？
+
+---
+
+### 设计场景营销内容
+
+使用：
+
+1. `templates/scenario-marketing-model-toolbox.md`
+2. `commercial-models.md` 中的 Jobs To Be Done、STP、4P
+3. `advanced-commercial-models.md` 中的用户旅程地图、Kano、服务蓝图
+
+适合问题：
+
+> 我该怎么写短视频脚本、海报文案、朋友圈文案、私聊话术，让客户在具体场景中感到这个产品有用？
 
 ---
 
