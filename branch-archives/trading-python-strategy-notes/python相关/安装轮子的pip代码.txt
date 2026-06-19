@@ -1,9 +1,0 @@
-（直接编译好的轮子，用pip 安装这个文件直接可以代替pip-talib的安装），代码如下
-
-pip install "D:\Git hub\python库\TA_Lib-0.4.24-cp310-cp310-win_amd64.whl"
-
-
-
-安装之后可以用于安装  pip install vnpy
-
-记得最好这个是在D盘根目录，这样和request能对上
