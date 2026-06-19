@@ -1,0 +1,242 @@
+﻿[
+    {
+        "id":  "01",
+        "title":  "圣经",
+        "project_gutenberg_id":  "10",
+        "source_url":  "https://www.gutenberg.org/cache/epub/10/pg10.txt",
+        "file":  "public_domain/01-圣经.txt",
+        "bytes":  4455950
+    },
+    {
+        "id":  "02",
+        "title":  "古兰经",
+        "project_gutenberg_id":  "2800",
+        "source_url":  "https://www.gutenberg.org/cache/epub/2800/pg2800.txt",
+        "file":  "public_domain/02-古兰经.txt",
+        "bytes":  1145263
+    },
+    {
+        "id":  "03",
+        "title":  "道德经",
+        "project_gutenberg_id":  "216",
+        "source_url":  "https://www.gutenberg.org/cache/epub/216/pg216.txt",
+        "file":  "public_domain/03-道德经.txt",
+        "bytes":  80552
+    },
+    {
+        "id":  "07",
+        "title":  "孙子兵法",
+        "project_gutenberg_id":  "132",
+        "source_url":  "https://www.gutenberg.org/cache/epub/132/pg132.txt",
+        "file":  "public_domain/07-孙子兵法.txt",
+        "bytes":  342105
+    },
+    {
+        "id":  "08",
+        "title":  "理想国",
+        "project_gutenberg_id":  "1497",
+        "source_url":  "https://www.gutenberg.org/cache/epub/1497/pg1497.txt",
+        "file":  "public_domain/08-理想国.txt",
+        "bytes":  1244164
+    },
+    {
+        "id":  "09",
+        "title":  "尼各马可伦理学",
+        "project_gutenberg_id":  "8438",
+        "source_url":  "https://www.gutenberg.org/cache/epub/8438/pg8438.txt",
+        "file":  "public_domain/09-尼各马可伦理学.txt",
+        "bytes":  671555
+    },
+    {
+        "id":  "10",
+        "title":  "沉思录",
+        "project_gutenberg_id":  "2680",
+        "source_url":  "https://www.gutenberg.org/cache/epub/2680/pg2680.txt",
+        "file":  "public_domain/10-沉思录.txt",
+        "bytes":  425308
+    },
+    {
+        "id":  "11",
+        "title":  "君主论",
+        "project_gutenberg_id":  "1232",
+        "source_url":  "https://www.gutenberg.org/cache/epub/1232/pg1232.txt",
+        "file":  "public_domain/11-君主论.txt",
+        "bytes":  308022
+    },
+    {
+        "id":  "12",
+        "title":  "论自由",
+        "project_gutenberg_id":  "34901",
+        "source_url":  "https://www.gutenberg.org/cache/epub/34901/pg34901.txt",
+        "file":  "public_domain/12-论自由.txt",
+        "bytes":  331162
+    },
+    {
+        "id":  "13",
+        "title":  "国富论",
+        "project_gutenberg_id":  "3300",
+        "source_url":  "https://www.gutenberg.org/cache/epub/3300/pg3300.txt",
+        "file":  "public_domain/13-国富论.txt",
+        "bytes":  2468951
+    },
+    {
+        "id":  "15",
+        "title":  "共产党宣言",
+        "project_gutenberg_id":  "61",
+        "source_url":  "https://www.gutenberg.org/cache/epub/61/pg61.txt",
+        "file":  "public_domain/15-共产党宣言.txt",
+        "bytes":  94315
+    },
+    {
+        "id":  "16",
+        "title":  "物种起源",
+        "project_gutenberg_id":  "2009",
+        "source_url":  "https://www.gutenberg.org/cache/epub/2009/pg2009.txt",
+        "file":  "public_domain/16-物种起源.txt",
+        "bytes":  1303005
+    },
+    {
+        "id":  "17",
+        "title":  "梦的解析",
+        "project_gutenberg_id":  "66048",
+        "source_url":  "https://www.gutenberg.org/cache/epub/66048/pg66048.txt",
+        "file":  "public_domain/17-梦的解析.txt",
+        "bytes":  1273335
+    },
+    {
+        "id":  "18",
+        "title":  "社会契约论",
+        "project_gutenberg_id":  "46333",
+        "source_url":  "https://www.gutenberg.org/cache/epub/46333/pg46333.txt",
+        "file":  "public_domain/18-社会契约论.txt",
+        "bytes":  742000
+    },
+    {
+        "id":  "19",
+        "title":  "乌托邦",
+        "project_gutenberg_id":  "2130",
+        "source_url":  "https://www.gutenberg.org/cache/epub/2130/pg2130.txt",
+        "file":  "public_domain/19-乌托邦.txt",
+        "bytes":  261748
+    },
+    {
+        "id":  "20",
+        "title":  "瓦尔登湖",
+        "project_gutenberg_id":  "205",
+        "source_url":  "https://www.gutenberg.org/cache/epub/205/pg205.txt",
+        "file":  "public_domain/20-瓦尔登湖.txt",
+        "bytes":  667957
+    },
+    {
+        "id":  "21",
+        "title":  "伊利亚特",
+        "project_gutenberg_id":  "6130",
+        "source_url":  "https://www.gutenberg.org/cache/epub/6130/pg6130.txt",
+        "file":  "public_domain/21-伊利亚特.txt",
+        "bytes":  1161373
+    },
+    {
+        "id":  "22",
+        "title":  "奥德赛",
+        "project_gutenberg_id":  "1727",
+        "source_url":  "https://www.gutenberg.org/cache/epub/1727/pg1727.txt",
+        "file":  "public_domain/22-奥德赛.txt",
+        "bytes":  717784
+    },
+    {
+        "id":  "23",
+        "title":  "神曲",
+        "project_gutenberg_id":  "1000",
+        "source_url":  "https://www.gutenberg.org/cache/epub/1000/pg1000.txt",
+        "file":  "public_domain/23-神曲.txt",
+        "bytes":  597903
+    },
+    {
+        "id":  "24",
+        "title":  "哈姆雷特",
+        "project_gutenberg_id":  "1524",
+        "source_url":  "https://www.gutenberg.org/cache/epub/1524/pg1524.txt",
+        "file":  "public_domain/24-哈姆雷特.txt",
+        "bytes":  206895
+    },
+    {
+        "id":  "25",
+        "title":  "浮士德",
+        "project_gutenberg_id":  "14591",
+        "source_url":  "https://www.gutenberg.org/cache/epub/14591/pg14591.txt",
+        "file":  "public_domain/25-浮士德.txt",
+        "bytes":  257933
+    },
+    {
+        "id":  "26",
+        "title":  "堂吉诃德",
+        "project_gutenberg_id":  "996",
+        "source_url":  "https://www.gutenberg.org/cache/epub/996/pg996.txt",
+        "file":  "public_domain/26-堂吉诃德.txt",
+        "bytes":  2391678
+    },
+    {
+        "id":  "27",
+        "title":  "傲慢与偏见",
+        "project_gutenberg_id":  "1342",
+        "source_url":  "https://www.gutenberg.org/cache/epub/1342/pg1342.txt",
+        "file":  "public_domain/27-傲慢与偏见.txt",
+        "bytes":  772386
+    },
+    {
+        "id":  "28",
+        "title":  "双城记",
+        "project_gutenberg_id":  "98",
+        "source_url":  "https://www.gutenberg.org/cache/epub/98/pg98.txt",
+        "file":  "public_domain/28-双城记.txt",
+        "bytes":  807197
+    },
+    {
+        "id":  "29",
+        "title":  "悲惨世界",
+        "project_gutenberg_id":  "135",
+        "source_url":  "https://www.gutenberg.org/cache/epub/135/pg135.txt",
+        "file":  "public_domain/29-悲惨世界.txt",
+        "bytes":  3369207
+    },
+    {
+        "id":  "30",
+        "title":  "战争与和平",
+        "project_gutenberg_id":  "2600",
+        "source_url":  "https://www.gutenberg.org/cache/epub/2600/pg2600.txt",
+        "file":  "public_domain/30-战争与和平.txt",
+        "bytes":  3359610
+    },
+    {
+        "id":  "31",
+        "title":  "安娜·卡列尼娜",
+        "project_gutenberg_id":  "1399",
+        "source_url":  "https://www.gutenberg.org/cache/epub/1399/pg1399.txt",
+        "file":  "public_domain/31-安娜·卡列尼娜.txt",
+        "bytes":  2067952
+    },
+    {
+        "id":  "32",
+        "title":  "罪与罚",
+        "project_gutenberg_id":  "2554",
+        "source_url":  "https://www.gutenberg.org/cache/epub/2554/pg2554.txt",
+        "file":  "public_domain/32-罪与罚.txt",
+        "bytes":  1201725
+    },
+    {
+        "id":  "33",
+        "title":  "卡拉马佐夫兄弟",
+        "project_gutenberg_id":  "28054",
+        "source_url":  "https://www.gutenberg.org/cache/epub/28054/pg28054.txt",
+        "file":  "public_domain/33-卡拉马佐夫兄弟.txt",
+        "bytes":  2039159
+    },
+    {
+        "id":  "34",
+        "title":  "白鲸",
+        "project_gutenberg_id":  "2701",
+        "source_url":  "https://www.gutenberg.org/cache/epub/2701/pg2701.txt",
+        "file":  "public_domain/34-白鲸.txt",
+        "bytes":  1276263
+    }
+]

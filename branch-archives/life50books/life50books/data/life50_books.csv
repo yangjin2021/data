@@ -1,0 +1,51 @@
+id,title_zh,title_original,author,year,category,copyright_status,resource_name,resource_url,resource_note,why
+01,圣经,The Bible,多作者,古代,宗教与文明,public_domain_translation_varies,Project Gutenberg,https://www.gutenberg.org/ebooks/10,KJV 英译公版入口；中文译本版权需单独核验。,理解西方宗教、文学、政治隐喻的底层文本。
+02,古兰经,The Qur'an,传统伊斯兰经典,7世纪,宗教与文明,public_domain_translation_varies,Project Gutenberg,https://www.gutenberg.org/ebooks/2800,公版英译入口；现代译本版权需单独核验。,理解伊斯兰文明、律法、伦理和世界史的重要入口。
+03,道德经,Tao Te Ching,老子,约前6世纪,东方思想,public_domain_original,Project Gutenberg,https://www.gutenberg.org/ebooks/216,古籍原文公版；具体译本版权需核验。,以极短文本讨论道、无为、治理与反脆弱的东方经典。
+04,论语,Analects,孔子及弟子,约前5世纪,东方思想,public_domain_original,Chinese Text Project,https://ctext.org/analects,古籍原文入口；现代整理和译注版权需核验。,理解儒家伦理、学习观、政治观和人格修养的核心。
+05,孟子,Mencius,孟子,约前4世纪,东方思想,public_domain_original,Chinese Text Project,https://ctext.org/mengzi,古籍原文入口；现代译注版权需核验。,讨论人性、仁政、义利之辨，是儒家政治伦理的重要文本。
+06,庄子,Zhuangzi,庄子及后学,战国,东方思想,public_domain_original,Chinese Text Project,https://ctext.org/zhuangzi,古籍原文入口；现代译注版权需核验。,训练看待自由、语言、相对性和生命边界的能力。
+07,孙子兵法,The Art of War,孙武,约前5世纪,战略与决策,public_domain_original,Project Gutenberg,https://www.gutenberg.org/ebooks/132,公版英译入口；中文古籍原文公版。,战略、竞争、风险和不战而胜思想的源头文本。
+08,理想国,The Republic,柏拉图,约前375,哲学与政治,public_domain_translation,Project Gutenberg,https://www.gutenberg.org/ebooks/1497,Jowett 英译公版入口。,讨论正义、教育、政治秩序和哲人王，是西方哲学入口。
+09,尼各马可伦理学,Nicomachean Ethics,亚里士多德,约前340,哲学与伦理,public_domain_translation,Project Gutenberg,https://www.gutenberg.org/ebooks/8438,公版英译入口。,理解德性、幸福、实践智慧和中道思想。
+10,沉思录,Meditations,马可·奥勒留,2世纪,哲学与自我修炼,public_domain_translation,Standard Ebooks,https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long,George Long 英译公版整理版。,斯多葛主义的个人实践手册，适合长期反复读。
+11,君主论,The Prince,马基雅维利,1532,政治与权力,public_domain_translation,Project Gutenberg,https://www.gutenberg.org/ebooks/1232,W. K. Marriott 英译公版入口。,理解权力、现实政治和组织控制的冷峻文本。
+12,论自由,On Liberty,约翰·斯图亚特·密尔,1859,政治与自由,public_domain,Standard Ebooks,https://standardebooks.org/ebooks/john-stuart-mill/on-liberty,公版整理版入口。,自由主义、个人边界、社会权力约束的经典。
+13,国富论,The Wealth of Nations,亚当·斯密,1776,经济与社会,public_domain,Project Gutenberg,https://www.gutenberg.org/ebooks/3300,公版入口。,理解市场、分工、制度和现代经济社会的起点。
+14,资本论 第一卷,"Das Kapital, Volume I",卡尔·马克思,1867,经济与社会,public_domain_original_translation_varies,Marxists Internet Archive,https://www.marxists.org/archive/marx/works/1867-c1/,原作者公版；具体英文/中文译本版权与网站授权需按来源核验。,分析资本主义生产、商品、价值和制度结构的重要文本。
+15,共产党宣言,The Communist Manifesto,马克思、恩格斯,1848,政治与社会,public_domain_translation,Project Gutenberg,https://www.gutenberg.org/ebooks/61,公版入口。,理解现代政治运动、阶级叙事和意识形态传播的关键文本。
+16,物种起源,On the Origin of Species,查尔斯·达尔文,1859,科学与世界观,public_domain,Project Gutenberg,https://www.gutenberg.org/ebooks/2009,公版入口。,改变现代生命观、适应观、复杂系统观的科学经典。
+17,梦的解析,The Interpretation of Dreams,西格蒙德·弗洛伊德,1899,心理与人性,public_domain_translation_varies,Project Gutenberg,https://www.gutenberg.org/ebooks/66048,A. A. Brill 英译公版入口；其他译本版权需核验。,理解潜意识、象征、现代心理学和文学解释传统。
+18,社会契约论,The Social Contract,卢梭,1762,政治与社会,public_domain_translation,Standard Ebooks,https://standardebooks.org/ebooks/jean-jacques-rousseau/the-social-contract/g-d-h-cole,G. D. H. Cole 英译整理版。,理解主权、共同意志、现代政治合法性的核心文本。
+19,乌托邦,Utopia,托马斯·莫尔,1516,政治与想象,public_domain_translation,Project Gutenberg,https://www.gutenberg.org/ebooks/2130,公版入口。,训练制度想象力，理解理想社会与现实政治的张力。
+20,瓦尔登湖,Walden,亨利·戴维·梭罗,1854,生活与自然,public_domain,Project Gutenberg,https://www.gutenberg.org/ebooks/205,公版入口。,关于简单生活、独立精神、自然和现代性反思的经典。
+21,伊利亚特,The Iliad,荷马,古希腊,文学与史诗,public_domain_translation,Project Gutenberg,https://www.gutenberg.org/ebooks/6130,公版英译入口。,西方史诗传统、英雄伦理和战争叙事的源头之一。
+22,奥德赛,The Odyssey,荷马,古希腊,文学与史诗,public_domain_translation,Project Gutenberg,https://www.gutenberg.org/ebooks/1727,公版英译入口。,关于归乡、冒险、身份和智慧的叙事母题源头。
+23,神曲,The Divine Comedy,但丁,1321,文学与精神,public_domain_translation,Project Gutenberg,https://www.gutenberg.org/ebooks/1000,公版入口。,中世纪世界观、宗教想象和文学结构的高峰。
+24,哈姆雷特,Hamlet,莎士比亚,约1601,文学与人性,public_domain,Project Gutenberg,https://www.gutenberg.org/ebooks/1524,公版入口。,现代主体、犹疑、复仇和命运感的经典戏剧。
+25,浮士德,Faust,歌德,1808/1832,文学与现代性,public_domain_translation,Project Gutenberg,https://www.gutenberg.org/ebooks/14591,公版入口。,关于求知、欲望、交易和现代精神危机的代表作。
+26,堂吉诃德,Don Quixote,塞万提斯,1605/1615,文学与现代小说,public_domain_translation,Project Gutenberg,https://www.gutenberg.org/ebooks/996,公版入口。,现代小说的重要开端，讨论理想、幻觉和现实冲突。
+27,傲慢与偏见,Pride and Prejudice,简·奥斯丁,1813,文学与社会,public_domain,Project Gutenberg,https://www.gutenberg.org/ebooks/1342,公版入口。,社会阶层、婚姻、误判与人格成长的经典小说。
+28,双城记,A Tale of Two Cities,查尔斯·狄更斯,1859,文学与历史,public_domain,Project Gutenberg,https://www.gutenberg.org/ebooks/98,公版入口。,以法国大革命为背景理解历史巨变、牺牲和社会情绪。
+29,悲惨世界,Les Misérables,维克多·雨果,1862,文学与社会,public_domain_translation,Project Gutenberg,https://www.gutenberg.org/ebooks/135,公版入口。,把个人命运、法律、贫困、革命与救赎联成宏大结构。
+30,战争与和平,War and Peace,列夫·托尔斯泰,1869,文学与历史,public_domain_translation,Project Gutenberg,https://www.gutenberg.org/ebooks/2600,公版入口。,历史、家庭、战争、自由意志和社会复杂性的巨著。
+31,安娜·卡列尼娜,Anna Karenina,列夫·托尔斯泰,1878,文学与人生,public_domain_translation,Project Gutenberg,https://www.gutenberg.org/ebooks/1399,公版入口。,婚姻、欲望、社会评价和人生道路的深层小说。
+32,罪与罚,Crime and Punishment,陀思妥耶夫斯基,1866,文学与心理,public_domain_translation,Project Gutenberg,https://www.gutenberg.org/ebooks/2554,公版入口。,罪、良知、理性化和救赎心理的极致文本。
+33,卡拉马佐夫兄弟,The Brothers Karamazov,陀思妥耶夫斯基,1880,文学与信仰,public_domain_translation,Project Gutenberg,https://www.gutenberg.org/ebooks/28054,公版入口。,信仰、自由、父子、罪责与现代精神困境的综合小说。
+34,白鲸,Moby-Dick,赫尔曼·梅尔维尔,1851,文学与象征,public_domain,Project Gutenberg,https://www.gutenberg.org/ebooks/2701,公版入口。,执念、自然、资本、命运和象征系统的复杂小说。
+35,红楼梦,Dream of the Red Chamber,曹雪芹、高鹗,18世纪,中国文学,public_domain_original,Wikisource,https://zh.wikisource.org/wiki/紅樓夢,古籍原文入口；现代校注版权需核验。,中国小说高峰，理解家族、命运、情感和制度衰败。
+36,西游记,Journey to the West,吴承恩,16世纪,中国文学,public_domain_original,Wikisource,https://zh.wikisource.org/wiki/西遊記,古籍原文入口；现代整理版权需核验。,神魔小说、修行叙事、团队结构和中国想象力代表作。
+37,三国演义,Romance of the Three Kingdoms,罗贯中,14世纪,中国文学与战略,public_domain_original,Wikisource,https://zh.wikisource.org/wiki/三國演義,古籍原文入口；现代整理版权需核验。,权谋、联盟、战略、历史叙事和组织兴衰的经典。
+38,水浒传,Water Margin,施耐庵,14世纪,中国文学与社会,public_domain_original,Wikisource,https://zh.wikisource.org/wiki/水滸傳,古籍原文入口；现代整理版权需核验。,江湖、秩序、反叛、暴力和群体组织的复杂文本。
+39,史记,Records of the Grand Historian,司马迁,约前91,历史与人物,public_domain_original,Wikisource,https://zh.wikisource.org/wiki/史記,古籍原文入口；现代点校和译注版权需核验。,纪传体史学源头，训练历史、人物和制度的综合判断。
+40,诗经,Book of Songs,佚名,西周至春秋,诗歌与文明,public_domain_original,Wikisource,https://zh.wikisource.org/wiki/詩經,古籍原文入口；现代注释版权需核验。,中国诗歌、礼乐、民情和政治表达的源头文本。
+41,百年孤独,One Hundred Years of Solitude,加西亚·马尔克斯,1967,现代文学,copyrighted,Open Library search,https://openlibrary.org/search?q=One+Hundred+Years+of+Solitude+Gabriel+Garcia+Marquez,受版权保护，不上传全文；只提供合法检索入口。,魔幻现实主义和现代拉美历史想象的代表作。
+42,活着,To Live,余华,1993,现代文学,copyrighted,Open Library search,https://openlibrary.org/search?q=%E6%B4%BB%E7%9D%80+%E4%BD%99%E5%8D%8E,受版权保护，不上传全文；只提供合法检索入口。,用极简叙事写苦难、生命韧性和历史冲击。
+43,小王子,The Little Prince,安托万·德·圣-埃克苏佩里,1943,现代寓言,copyrighted_in_some_jurisdictions,Official site,https://www.thelittleprince.com/,版权状态因国家不同而异；公开仓库不放全文。,用童话形式讨论爱、孤独、责任和看见本质。
+44,一九八四,Nineteen Eighty-Four,乔治·奥威尔,1949,政治寓言,copyrighted_in_us,Open Library search,https://openlibrary.org/search?q=Nineteen+Eighty-Four+George+Orwell,多地仍受版权保护，公开仓库不放全文。,理解极权、语言控制、监控社会和思想改造的经典。
+45,动物农场,Animal Farm,乔治·奥威尔,1945,政治寓言,copyrighted_in_us,Open Library search,https://openlibrary.org/search?q=Animal+Farm+George+Orwell,多地仍受版权保护，公开仓库不放全文。,用寓言形式讨论革命、权力异化和宣传机制。
+46,局外人,The Stranger,阿尔贝·加缪,1942,现代文学与存在主义,copyrighted,Open Library search,https://openlibrary.org/search?q=The+Stranger+Albert+Camus,受版权保护，不上传全文。,理解荒诞、现代主体和社会审判的重要小说。
+47,人类简史,Sapiens,尤瓦尔·赫拉利,2011,历史与认知,copyrighted,Official author page,https://www.ynharari.com/book/sapiens-2/,受版权保护，不上传全文。,用宏观叙事理解人类协作、虚构秩序和现代社会。
+48,思考，快与慢,"Thinking, Fast and Slow",丹尼尔·卡尼曼,2011,心理与决策,copyrighted,Google Books metadata,https://books.google.com/books/about/Thinking_Fast_and_Slow.html?id=YGPzXWanppcC,受版权保护，不上传全文。,理解系统1/系统2、偏差、判断和行为决策的核心书。
+49,影响力,Influence,罗伯特·西奥迪尼,1984,心理与社会影响,copyrighted,Publisher page,https://www.harpercollins.com/products/influence-robert-b-cialdini,受版权保护，不上传全文。,理解说服、社会影响和行为触发机制的应用经典。
+50,穷查理宝典,Poor Charlie's Almanack,查理·芒格,2005,投资与思维模型,copyrighted,Official publisher page,https://www.stripe.press/poor-charlies-almanack,受版权保护，不上传全文。,多学科思维模型、判断错误和长期主义的实践读本。

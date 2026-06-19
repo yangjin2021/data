@@ -1,0 +1,202 @@
+[
+  {
+    "id": "04",
+    "title_zh": "论语",
+    "title_original": "Analects",
+    "author": "孔子及弟子",
+    "copyright_status": "public_domain_original",
+    "reason": "古籍原文原则上公版，但当前未自动打包规范整本全文；网络版本常包含现代点校、整理、分章、排版或平台许可，需按来源许可单独整理。",
+    "legal_resource_name": "Chinese Text Project",
+    "legal_resource_url": "https://ctext.org/analects"
+  },
+  {
+    "id": "05",
+    "title_zh": "孟子",
+    "title_original": "Mencius",
+    "author": "孟子",
+    "copyright_status": "public_domain_original",
+    "reason": "古籍原文原则上公版，但当前未自动打包规范整本全文；网络版本常包含现代点校、整理、分章、排版或平台许可，需按来源许可单独整理。",
+    "legal_resource_name": "Chinese Text Project",
+    "legal_resource_url": "https://ctext.org/mengzi"
+  },
+  {
+    "id": "06",
+    "title_zh": "庄子",
+    "title_original": "Zhuangzi",
+    "author": "庄子及后学",
+    "copyright_status": "public_domain_original",
+    "reason": "古籍原文原则上公版，但当前未自动打包规范整本全文；网络版本常包含现代点校、整理、分章、排版或平台许可，需按来源许可单独整理。",
+    "legal_resource_name": "Chinese Text Project",
+    "legal_resource_url": "https://ctext.org/zhuangzi"
+  },
+  {
+    "id": "14",
+    "title_zh": "资本论 第一卷",
+    "title_original": "Das Kapital, Volume I",
+    "author": "卡尔·马克思",
+    "copyright_status": "public_domain_original_translation_varies",
+    "reason": "原作公版，但具体译本、网页整理和授权状态需逐项核验；当前只保留合法来源入口。",
+    "legal_resource_name": "Marxists Internet Archive",
+    "legal_resource_url": "https://www.marxists.org/archive/marx/works/1867-c1/"
+  },
+  {
+    "id": "35",
+    "title_zh": "红楼梦",
+    "title_original": "Dream of the Red Chamber",
+    "author": "曹雪芹、高鹗",
+    "copyright_status": "public_domain_original",
+    "reason": "古籍原文原则上公版，但当前未自动打包规范整本全文；网络版本常包含现代点校、整理、分章、排版或平台许可，需按来源许可单独整理。",
+    "legal_resource_name": "Wikisource",
+    "legal_resource_url": "https://zh.wikisource.org/wiki/紅樓夢"
+  },
+  {
+    "id": "36",
+    "title_zh": "西游记",
+    "title_original": "Journey to the West",
+    "author": "吴承恩",
+    "copyright_status": "public_domain_original",
+    "reason": "古籍原文原则上公版，但当前未自动打包规范整本全文；网络版本常包含现代点校、整理、分章、排版或平台许可，需按来源许可单独整理。",
+    "legal_resource_name": "Wikisource",
+    "legal_resource_url": "https://zh.wikisource.org/wiki/西遊記"
+  },
+  {
+    "id": "37",
+    "title_zh": "三国演义",
+    "title_original": "Romance of the Three Kingdoms",
+    "author": "罗贯中",
+    "copyright_status": "public_domain_original",
+    "reason": "古籍原文原则上公版，但当前未自动打包规范整本全文；网络版本常包含现代点校、整理、分章、排版或平台许可，需按来源许可单独整理。",
+    "legal_resource_name": "Wikisource",
+    "legal_resource_url": "https://zh.wikisource.org/wiki/三國演義"
+  },
+  {
+    "id": "38",
+    "title_zh": "水浒传",
+    "title_original": "Water Margin",
+    "author": "施耐庵",
+    "copyright_status": "public_domain_original",
+    "reason": "古籍原文原则上公版，但当前未自动打包规范整本全文；网络版本常包含现代点校、整理、分章、排版或平台许可，需按来源许可单独整理。",
+    "legal_resource_name": "Wikisource",
+    "legal_resource_url": "https://zh.wikisource.org/wiki/水滸傳"
+  },
+  {
+    "id": "39",
+    "title_zh": "史记",
+    "title_original": "Records of the Grand Historian",
+    "author": "司马迁",
+    "copyright_status": "public_domain_original",
+    "reason": "古籍原文原则上公版，但当前未自动打包规范整本全文；网络版本常包含现代点校、整理、分章、排版或平台许可，需按来源许可单独整理。",
+    "legal_resource_name": "Wikisource",
+    "legal_resource_url": "https://zh.wikisource.org/wiki/史記"
+  },
+  {
+    "id": "40",
+    "title_zh": "诗经",
+    "title_original": "Book of Songs",
+    "author": "佚名",
+    "copyright_status": "public_domain_original",
+    "reason": "古籍原文原则上公版，但当前未自动打包规范整本全文；网络版本常包含现代点校、整理、分章、排版或平台许可，需按来源许可单独整理。",
+    "legal_resource_name": "Wikisource",
+    "legal_resource_url": "https://zh.wikisource.org/wiki/詩經"
+  },
+  {
+    "id": "41",
+    "title_zh": "百年孤独",
+    "title_original": "One Hundred Years of Solitude",
+    "author": "加西亚·马尔克斯",
+    "copyright_status": "copyrighted",
+    "reason": "现代版权书或版权辖区状态复杂，不能在公开仓库或下载包中提供盗版全文。",
+    "legal_resource_name": "Open Library search",
+    "legal_resource_url": "https://openlibrary.org/search?q=One+Hundred+Years+of+Solitude+Gabriel+Garcia+Marquez"
+  },
+  {
+    "id": "42",
+    "title_zh": "活着",
+    "title_original": "To Live",
+    "author": "余华",
+    "copyright_status": "copyrighted",
+    "reason": "现代版权书或版权辖区状态复杂，不能在公开仓库或下载包中提供盗版全文。",
+    "legal_resource_name": "Open Library search",
+    "legal_resource_url": "https://openlibrary.org/search?q=%E6%B4%BB%E7%9D%80+%E4%BD%99%E5%8D%8E"
+  },
+  {
+    "id": "43",
+    "title_zh": "小王子",
+    "title_original": "The Little Prince",
+    "author": "安托万·德·圣-埃克苏佩里",
+    "copyright_status": "copyrighted_in_some_jurisdictions",
+    "reason": "现代版权书或版权辖区状态复杂，不能在公开仓库或下载包中提供盗版全文。",
+    "legal_resource_name": "Official site",
+    "legal_resource_url": "https://www.thelittleprince.com/"
+  },
+  {
+    "id": "44",
+    "title_zh": "一九八四",
+    "title_original": "Nineteen Eighty-Four",
+    "author": "乔治·奥威尔",
+    "copyright_status": "copyrighted_in_us",
+    "reason": "现代版权书或版权辖区状态复杂，不能在公开仓库或下载包中提供盗版全文。",
+    "legal_resource_name": "Open Library search",
+    "legal_resource_url": "https://openlibrary.org/search?q=Nineteen+Eighty-Four+George+Orwell"
+  },
+  {
+    "id": "45",
+    "title_zh": "动物农场",
+    "title_original": "Animal Farm",
+    "author": "乔治·奥威尔",
+    "copyright_status": "copyrighted_in_us",
+    "reason": "现代版权书或版权辖区状态复杂，不能在公开仓库或下载包中提供盗版全文。",
+    "legal_resource_name": "Open Library search",
+    "legal_resource_url": "https://openlibrary.org/search?q=Animal+Farm+George+Orwell"
+  },
+  {
+    "id": "46",
+    "title_zh": "局外人",
+    "title_original": "The Stranger",
+    "author": "阿尔贝·加缪",
+    "copyright_status": "copyrighted",
+    "reason": "现代版权书或版权辖区状态复杂，不能在公开仓库或下载包中提供盗版全文。",
+    "legal_resource_name": "Open Library search",
+    "legal_resource_url": "https://openlibrary.org/search?q=The+Stranger+Albert+Camus"
+  },
+  {
+    "id": "47",
+    "title_zh": "人类简史",
+    "title_original": "Sapiens",
+    "author": "尤瓦尔·赫拉利",
+    "copyright_status": "copyrighted",
+    "reason": "现代版权书或版权辖区状态复杂，不能在公开仓库或下载包中提供盗版全文。",
+    "legal_resource_name": "Official author page",
+    "legal_resource_url": "https://www.ynharari.com/book/sapiens-2/"
+  },
+  {
+    "id": "48",
+    "title_zh": "思考，快与慢",
+    "title_original": "Thinking, Fast and Slow",
+    "author": "丹尼尔·卡尼曼",
+    "copyright_status": "copyrighted",
+    "reason": "现代版权书或版权辖区状态复杂，不能在公开仓库或下载包中提供盗版全文。",
+    "legal_resource_name": "Google Books metadata",
+    "legal_resource_url": "https://books.google.com/books/about/Thinking_Fast_and_Slow.html?id=YGPzXWanppcC"
+  },
+  {
+    "id": "49",
+    "title_zh": "影响力",
+    "title_original": "Influence",
+    "author": "罗伯特·西奥迪尼",
+    "copyright_status": "copyrighted",
+    "reason": "现代版权书或版权辖区状态复杂，不能在公开仓库或下载包中提供盗版全文。",
+    "legal_resource_name": "Publisher page",
+    "legal_resource_url": "https://www.harpercollins.com/products/influence-robert-b-cialdini"
+  },
+  {
+    "id": "50",
+    "title_zh": "穷查理宝典",
+    "title_original": "Poor Charlie's Almanack",
+    "author": "查理·芒格",
+    "copyright_status": "copyrighted",
+    "reason": "现代版权书或版权辖区状态复杂，不能在公开仓库或下载包中提供盗版全文。",
+    "legal_resource_name": "Official publisher page",
+    "legal_resource_url": "https://www.stripe.press/poor-charlies-almanack"
+  }
+]
