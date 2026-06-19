@@ -99,19 +99,35 @@ knowledge/flomo-notes/2026/flomo-external-2026-index.md
 随后改为单条拆分，已成功写入：
 
 ```text
-knowledge/flomo-notes/2026/flomo-external-2026-business-single-20260121.md
-knowledge/flomo-notes/2026/flomo-external-2026-business-single-20260117.md
-knowledge/flomo-notes/2026/flomo-external-2026-ai-single-20260106.md
-knowledge/flomo-notes/2026/flomo-external-2026-trading-single-20260402.md
+knowledge/flomo-notes/2026/flomo-external-2026-single-trading-20260402.md
+knowledge/flomo-notes/2026/flomo-external-2026-single-business-20260121.md
+knowledge/flomo-notes/2026/flomo-external-2026-single-business-20260117.md
+knowledge/flomo-notes/2026/flomo-external-2026-single-business-20260128.md
+knowledge/flomo-notes/2026/flomo-external-2026-single-ai-20260106.md
+knowledge/flomo-notes/2026/flomo-external-2026-single-relationship-20260131.md
+knowledge/flomo-notes/2026/flomo-external-2026-single-relationship-20260130-1623.md
+knowledge/flomo-notes/2026/flomo-external-2026-single-relationship-20260130-1549.md
+knowledge/flomo-notes/2026/flomo-external-2026-single-relationship-20260130-1529.md
+knowledge/flomo-notes/2026/flomo-external-2026-single-relationship-20260130-1106.md
+knowledge/flomo-notes/2026/flomo-external-2026-single-relationship-20260126.md
 ```
 
-后续可继续按单条拆分；如果单条仍被拦，只保留索引和来源日期，不改写正文。
+暂不展开正文、仅建立索引的条目：
+
+```text
+knowledge/flomo-notes/2026/flomo-external-2026-remaining-index.md
+```
+
+其中包括：
+
+- `2026-03-11 23:14:11`：涉及版权/盗取视频风险，不适合作为公开 data 正文展开。
+- `2026-01-27 20:41:01`：私人情感/关系长反思，更适合私人 `io`，不适合作为公开 data 正文展开。
 
 ## 待核对 / 待迁移
 
 - `2023` 外部资料：主体已迁移，尾段核对记录已建立；如重新读取到完整原文，再补齐。
 - `2025` 外部资料：主体已迁移，两个被拦条目保留索引。
-- `2026` 外部资料：已成功迁移 4 条普通条目；剩余关系/红丸/版权风险/私人感想条目继续按单条尝试或保留索引。
+- `2026` 外部资料：多数可迁移单条已迁移，剩余两条仅保留索引。
 
 ## 建议结构
 
@@ -129,4 +145,4 @@ knowledge/flomo-notes/
 
 ## 当前状态
 
-`io` 仓库中的 2022 主文件基本收口；`data` 已按新路径迁移 2022、2023 主体、2024、2025 主体；2026 已建立索引并成功迁移 4 条普通单条。
+`io` 仓库中的 2022 主文件基本收口；`data` 已按新路径迁移 2022、2023 主体、2024、2025 主体、2026 大部分可迁移单条；剩余内容以索引方式保留。
