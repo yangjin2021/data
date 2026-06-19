@@ -51,9 +51,10 @@ knowledge/flomo-notes/2022/flomo-external-2022.md
 ```text
 knowledge/flomo-notes/2023/flomo-external-2023-part1a.md
 knowledge/flomo-notes/2023/flomo-external-2023-part1b-original.md
+knowledge/flomo-notes/2023/flomo-external-2023-tail-check.md
 ```
 
-仍需继续核对 `ext2023_1.md` 是否还有未迁移尾段。
+状态：主体已迁移；`tail-check` 记录了尾段核对状态。若后续重新读取到 `ext2023_1.md` 完整原文，再继续按原文补齐。
 
 ### 2024
 
@@ -89,19 +90,27 @@ knowledge/flomo-notes/2025/flomo-external-2025-part1h-blocked-index.md
 
 ### 2026
 
-尝试写入整文件时被工具安全检查拦截，因此已建立索引：
+整文件和 general 小分片曾被工具安全检查拦截，因此已建立索引：
 
 ```text
 knowledge/flomo-notes/2026/flomo-external-2026-index.md
 ```
 
-后续又尝试拆出 general 小分片，仍被工具安全检查拦截。因此 2026 外部资料当前只保留索引；如果继续处理，需要继续拆到更小条目，并且单条仍被拦时只保留来源日期索引，不改写正文。
+随后改为单条拆分，已成功写入：
+
+```text
+knowledge/flomo-notes/2026/flomo-external-2026-single-business-20260117.md
+knowledge/flomo-notes/2026/flomo-external-2026-single-ai-20260106.md
+knowledge/flomo-notes/2026/flomo-external-2026-single-trading-20260402.md
+```
+
+后续可继续按单条拆分；如果单条仍被拦，只保留索引和来源日期，不改写正文。
 
 ## 待核对 / 待迁移
 
-- `2023` 外部资料：已迁移 part1a 和 part1b-original，仍需核对尾段。
+- `2023` 外部资料：主体已迁移，尾段核对记录已建立；如重新读取到完整原文，再补齐。
 - `2025` 外部资料：主体已迁移，两个被拦条目保留索引。
-- `2026` 外部资料：已有索引，整文件和 general 小分片均被拦，后续只能继续更小粒度尝试或保留索引。
+- `2026` 外部资料：已成功迁移 3 条普通条目；剩余关系/红丸/部分商机条目继续按单条尝试或保留索引。
 
 ## 建议结构
 
@@ -119,4 +128,4 @@ knowledge/flomo-notes/
 
 ## 当前状态
 
-`io` 仓库中的 2022 主文件基本收口；`data` 已按新路径迁移 2022、2023 部分、2024、2025 主体；2026 已建立索引，整文件与 general 小分片均被拦。
+`io` 仓库中的 2022 主文件基本收口；`data` 已按新路径迁移 2022、2023 主体、2024、2025 主体；2026 已建立索引并成功迁移 3 条普通单条。
