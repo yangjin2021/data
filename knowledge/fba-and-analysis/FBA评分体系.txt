@@ -1,10 +1,11 @@
-# 亚马逊FBA/FBM选品综合评估规则｜兼容表达优化最终版
+# 亚马逊FBA/FBM选品综合评估规则｜兼容表达优化 + 重量参考系统最终版
 
-version: "4.1"  
+version: "4.2"  
 enabled: true  
 mode: "账号安全优先 / 保守选品模式"  
 format: "人读友好 + AI执行友好"  
-total_weight: "140%"
+total_weight: "140%"  
+weight_system_enabled: true
 
 ---
 
@@ -19,12 +20,20 @@ core_principles:
     1: "维度0明确否决项"
     2: "真实利润"
     3: "售后全损风险"
-    4: "原始综合达成率"
+    4: "计费重量与运费压力"
+    5: "原始综合达成率"
 
   dimension_0_rule:
     - "维度0先于所有维度执行"
     - "只有命中明确否决项时，才不进入维度1-4"
     - "维度0只判断是否允许继续评估，不参与原始综合达成率计算"
+
+  weight_rule:
+    - "重量不是单独维度，而是维度1投产比、维度2产品属性与需求、维度3风险承受比的强制参考要素"
+    - "所有有重量信息的产品，必须计算实际重量、体积重、计费重量、跨境运费、运费占销售额比例"
+    - "没有包装长宽高时，必须标记为重量/体积重待确认，不能只按页面重量乐观估算"
+    - "体积重高于实际重量时，按体积重进入运费测算和风险判断"
+    - "轻小是加成，偏重是预警，重货是硬降级，抛货按体积重重算"
 
   compatibility_rule:
     - "Compatible For / Fit For / Replacement For / Suitable For / Intended For XX品牌，不自动等同于品牌侵权"
@@ -51,7 +60,7 @@ core_principles:
 
 # 二、权重设置
 
-四个维度的权重为：70/ 21 / 21 / 28。  
+四个维度的权重为：21 / 70 / 21 / 28。  
 四个维度权重合计必须为140%。
 
 ```yaml
@@ -82,6 +91,7 @@ weight_settings:
     - "权重顺序固定对应：维度1 / 维度2 / 维度3 / 维度4"
     - "四个维度权重合计必须为140%"
     - "当前固定为：维度1投产比，维度2产品属性与需求，维度3风险承受比，维度4 1688货源匹配度"
+    - "重量不新增维度，不改变总权重；重量通过维度1、维度2、维度3影响单项达成率和最终结论"
 ```
 
 ---
@@ -95,9 +105,11 @@ execution_flow:
   step_1:
     name: "信息完整性判断"
     action:
-      - "识别用户是否提供亚马逊商品信息、价格、类目、排名、评论、重量、配送方式"
-      - "识别用户是否提供1688货源信息、价格、起批量、运费、销量、供应商信息"
+      - "识别用户是否提供亚马逊商品信息、价格、类目、排名、评论、重量、包装尺寸、配送方式"
+      - "识别用户是否提供1688货源信息、价格、起批量、运费、销量、供应商信息、单品重量、包装长宽高"
+      - "识别实际重量、体积重、计费重量是否可计算"
       - "信息不完整时不能编造精确数据，只能做保守估算"
+      - "没有包装长宽高时，必须标记为体积重待确认"
       - "只给亚马逊信息时，先判断产品本身是否值得继续"
       - "只给亚马逊信息且命中维度0明确否决项时，直接排除"
 
@@ -109,6 +121,18 @@ execution_flow:
       - "不命中明确否决项，才允许进入维度1-4"
 
   step_3:
+    name: "重量与运费基础测算"
+    condition: "维度0未直接否决时执行"
+    action:
+      - "计算实际重量actual_weight_kg"
+      - "计算体积重dimensional_weight_kg"
+      - "计算计费重量billable_weight_kg"
+      - "计算跨境运费cross_border_freight"
+      - "计算运费占销售额比例freight_sales_ratio"
+      - "判断重量等级weight_level"
+      - "判断是否存在抛货、偏重、重货、低价重货风险"
+
+  step_4:
     name: "判断是否允许进入维度1-4"
     allow_if:
       - "维度0状态为通过"
@@ -122,15 +146,16 @@ execution_flow:
       - "1688货源带第三方Logo、原厂包装、仿原厂包装"
       - "产品外观高度仿冒知名品牌专有设计"
 
-  step_4:
+  step_5:
     name: "维度1-4综合评估"
     condition: "仅在维度0通过、低风险待确认或兼容表达合规待确认时执行"
 
-  step_5:
+  step_6:
     name: "输出评估结果"
     action:
       - "先输出百分比评估表"
       - "再推荐1688对应产品"
+      - "再输出重量与运费测算"
       - "再输出投产比测算"
       - "再输出否决项和风险确认"
       - "最后输出最终结论"
@@ -310,6 +335,7 @@ dimension_3_mandatory_reduction:
     - "效果主观、体验主观、容易产生差评的产品"
     - "退货后难二次销售的产品"
     - "一次售后可能吃掉多单利润的产品"
+    - "计费重量偏高、体积重大于实际重量、低客单重货、运费占比过高的产品"
 
   handling:
     - "不自动否决"
@@ -320,22 +346,111 @@ dimension_3_mandatory_reduction:
 
 ---
 
-# 五、维度1-4综合评估规则
+# 五、重量参考系统
+
+重量不单独成为维度，但它是维度1、维度2、维度3的强制参考参数。  
+凡是亚马逊页面或1688货源提供重量、尺寸、包装信息，都必须执行本系统。
+
+```yaml
+weight_reference_system:
+  purpose: "让产品重量成为投产比、产品属性和风险承受比的强制参考要素"
+
+  required_weight_fields:
+    - "亚马逊页面显示重量"
+    - "亚马逊页面包装尺寸"
+    - "1688供应商确认的单品实际重量"
+    - "1688供应商确认的单个包装后长宽高"
+    - "是否一件一个盒"
+    - "是否存在体积重高于实际重量的情况"
+
+  missing_data_handling:
+    - "如果只有实际重量，没有包装长宽高，可以先按实际重量保守估算，但必须标记体积重待确认"
+    - "如果亚马逊页面包装尺寸明显异常，必须提示尺寸可能是系统填充或变体错误，不可直接乐观采用"
+    - "如果1688未提供单品重量和包装尺寸，维度4不能判定为高匹配"
+    - "如果重量信息冲突，以1688实物称重和实际包装尺寸为准"
+
+  weight_calculation:
+    actual_weight_kg: "商品实际重量kg"
+    dimensional_weight_kg: "长cm × 宽cm × 高cm ÷ 6000"
+    billable_weight_kg: "actual_weight_kg 与 dimensional_weight_kg 取较高者"
+    cross_border_freight: "73 × billable_weight_kg + 10"
+    freight_sales_ratio: "cross_border_freight / amazon_sale_revenue_cny"
+
+  weight_level:
+    excellent:
+      condition: "billable_weight_kg <= 0.3"
+      handling: "轻小件，重量为正向因素，维度1和维度2可正常评估"
+
+    acceptable:
+      condition: "0.3 < billable_weight_kg <= 0.8"
+      handling: "可接受重量，但必须核算运费占销售额比例"
+
+    cautious:
+      condition: "0.8 < billable_weight_kg <= 1.5"
+      handling: "偏重，维度1和维度3必须保守"
+
+    weak:
+      condition: "1.5 < billable_weight_kg <= 3"
+      handling: "重货，除非售价高、利润厚、售后低，否则不建议优先做"
+
+    strong_caution:
+      condition: "billable_weight_kg > 3"
+      handling: "默认不优先做，除非有明确高利润、高需求和低售后证据"
+
+  freight_sales_ratio_level:
+    excellent:
+      condition: "freight_sales_ratio <= 8%"
+      handling: "运费压力小"
+
+    acceptable:
+      condition: "8% < freight_sales_ratio <= 15%"
+      handling: "运费可接受，但利润要复核"
+
+    cautious:
+      condition: "15% < freight_sales_ratio <= 25%"
+      handling: "运费压力较大，维度1单项达成率必须降低"
+
+    weak:
+      condition: "freight_sales_ratio > 25%"
+      handling: "运费吞噬利润，最终不能高于不建议优先做"
+
+  bulky_goods_rule:
+    definition: "dimensional_weight_kg > actual_weight_kg × 1.3"
+    handling:
+      - "标记为抛货/体积件"
+      - "按体积重计算跨境运费"
+      - "维度1投产比必须保守"
+      - "维度3风险承受比必须保守"
+      - "如果包装易压坏、退货后难二次销售，最终不能高于谨慎做"
+
+  mandatory_output:
+    - "输出实际重量"
+    - "输出体积重"
+    - "输出计费重量"
+    - "输出跨境运费"
+    - "输出运费占销售额比例"
+    - "输出重量等级"
+    - "说明重量对投产比、产品属性和风险承受比的影响"
+```
+
+---
+
+# 六、维度1-4综合评估规则
 
 只有在维度0通过、低风险待确认或兼容表达合规待确认时，才进入维度1-4。
 
 ---
 
-## 5.1 维度1：投产比
+## 6.1 维度1：投产比
 
-投产比必须按真实成本、真实售后损耗和合作伙伴佣金计算。  
+投产比必须按真实成本、真实售后损耗、合作伙伴佣金和计费重量计算。  
 不计广告费。
 
 ```yaml
 dimension_1:
   name: "投产比"
   weight: "21%"
-  core_rule: "投产比必须按真实成本、真实售后损耗和合作伙伴佣金计算"
+  core_rule: "投产比必须按真实成本、真实售后损耗、合作伙伴佣金和计费重量计算"
 
   required_cost_items:
     - "1688采购成本"
@@ -350,25 +465,38 @@ dimension_1:
     - "售后/退货损耗，默认按全损处理"
 
   freight_formula:
-    cross_border_freight: "73 × 重量kg + 10"
+    actual_weight_kg: "商品实际重量kg"
+    dimensional_weight_kg: "长cm × 宽cm × 高cm ÷ 6000"
+    billable_weight_kg: "actual_weight_kg 与 dimensional_weight_kg 取较高者"
+    cross_border_freight: "73 × billable_weight_kg + 10"
+
+  weight_impact:
+    - "计费重量 <= 0.3kg 时，重量对投产比为正向因素"
+    - "计费重量 0.3kg-0.8kg 时，运费可接受但必须复核运费占比"
+    - "计费重量 0.8kg-1.5kg 时，维度1单项达成率必须保守"
+    - "计费重量 1.5kg-3kg 时，除非高售价高毛利，否则不建议优先做"
+    - "计费重量 > 3kg 时，默认不优先做"
+    - "运费占销售额 > 25% 时，最终不能高于不建议优先做"
 
   hard_rules:
     - "不计广告费"
     - "未扣合作伙伴佣金10%，投产比无效"
     - "未预留售后全损，投产比偏乐观"
+    - "未计算计费重量或体积重，投产比偏乐观"
     - "降价10%-15%即亏损，最终不能高于谨慎做"
     - "一次售后吃掉多单利润，最终不能高于谨慎做"
     - "真实毛利润为负，直接不建议做"
+    - "运费占销售额超过25%，最终不能高于不建议优先做"
 
   achievement_reference:
-    high: "真实毛利润充足，售后全损后仍有利润，降价10%-15%后仍不亏损"
+    high: "真实毛利润充足，售后全损后仍有利润，降价10%-15%后仍不亏损，计费重量轻，运费占比低"
     medium: "有利润，但对售价、重量、退货率、FBA费用或售后损耗敏感"
-    low: "利润薄、重量高、售后全损风险大、降价后容易亏损"
+    low: "利润薄、重量高、体积重大、售后全损风险大、降价后容易亏损"
 ```
 
 ---
 
-## 5.2 维度2：产品属性与需求
+## 6.2 维度2：产品属性与需求
 
 重点判断产品是否轻小、标准化、刚需、低售后、长期稳定。
 
@@ -384,16 +512,36 @@ dimension_2:
     - "是否尺寸、接口、型号、适配复杂，容易买错"
     - "是否容易因质量、效果、安装、体验产生差评"
     - "亚马逊主类排名、小类排名、评论数量、评分、竞品数量、卖家数量是否支持需求判断"
+    - "计费重量是否适合跨境小件逻辑"
+    - "包装体积是否过大，是否属于抛货"
+    - "重量和体积是否会导致仓储、配送、退货、二次销售压力"
+
+  weight_reference:
+    high:
+      - "计费重量 <= 0.3kg"
+      - "包装小，不抛货"
+      - "不易碎、不变形、不怕压"
+      - "退货后可二次销售"
+
+    medium:
+      - "计费重量 0.3kg-0.8kg"
+      - "包装体积中等"
+      - "对运费有一定敏感性"
+
+    low:
+      - "计费重量 > 0.8kg"
+      - "体积大、抛货、包装成本高"
+      - "运输损坏、退货全损或仓储压力较大"
 
   achievement_reference:
     high: "轻小、标准化、刚需、低误购、低售后，单项达成率可高"
-    medium: "有需求但存在适配、季节性、体验或竞争问题，单项达成率中等"
-    low: "需求弱、非标、强体验、易退货、短期爆款，单项达成率低"
+    medium: "有需求但存在适配、季节性、体验、竞争或重量问题，单项达成率中等"
+    low: "需求弱、非标、强体验、易退货、短期爆款、偏重或抛货，单项达成率低"
 ```
 
 ---
 
-## 5.3 维度3：风险承受比
+## 6.3 维度3：风险承受比
 
 维度3用于承接所有未达到维度0否决程度、但会影响账号安全、售后、差评和利润稳定性的风险。
 
@@ -409,23 +557,42 @@ dimension_3:
     - "退货后是否难以二次销售"
     - "一次售后是否可能吃掉多单利润"
     - "差评点是否集中在质量、尺寸、安装、兼容、效果、耐用性"
+    - "计费重量是否偏高"
+    - "是否体积重大于实际重量，形成抛货风险"
+    - "是否低售价高重量，导致一次售后吞噬利润"
 
   mandatory_reduction:
     - "维度0存在低风险待确认时，维度3必须降低单项达成率"
     - "兼容表达合规待确认时，维度3必须降低单项达成率"
     - "需要安装、调试、适配判断的产品，维度3不能过高"
     - "带电、精密、重货、易碎、强体验产品，维度3必须保守"
+    - "计费重量 > 0.8kg 时，维度3必须保守"
+    - "体积重大于实际重量30%以上时，维度3必须保守"
+    - "运费占销售额 > 15% 时，维度3必须提示利润稳定性风险"
     - "只有当品牌兼容风险属于Logo、原厂、官方、授权、仿冒包装等明确高风险时，才回到维度0直接处理"
 
+  final_conclusion_limit:
+    - condition: "计费重量 > 1.5kg 且售价低于 $25"
+      conclusion_limit: "最终不能高于谨慎做"
+
+    - condition: "运费占销售额 > 25%"
+      conclusion_limit: "最终不能高于不建议优先做"
+
+    - condition: "计费重量 > 3kg 且非高客单高利润"
+      conclusion_limit: "默认不建议做"
+
+    - condition: "体积重大于实际重量30%以上且包装易损或退货难二次销售"
+      conclusion_limit: "最终不能高于谨慎做"
+
   achievement_reference:
-    high: "低合规风险、低售后风险、低误购风险、退货后可二次销售"
-    medium: "存在适配、安装、质量或售后风险，但可通过规格确认、包装、质检降低"
-    low: "兼容复杂、差评集中、售后全损、认证不明、账号风险待确认"
+    high: "低合规风险、低售后风险、低误购风险、重量轻、退货后可二次销售"
+    medium: "存在适配、安装、质量、重量或售后风险，但可通过规格确认、包装、质检降低"
+    low: "兼容复杂、差评集中、售后全损、认证不明、账号风险待确认、重货或抛货"
 ```
 
 ---
 
-## 5.4 维度4：1688货源匹配度
+## 6.4 维度4：1688货源匹配度
 
 1688货源必须判断是否同款，而不是只看是否同类。
 
@@ -442,57 +609,58 @@ dimension_4:
     - "包装是否中性、无Logo、无侵权元素"
     - "1688标题是否与亚马逊核心关键词匹配"
     - "销量、成交、起批量、发货速度、揽收率、退换政策是否可靠"
+    - "1688供应商是否能确认单品重量和包装长宽高"
+    - "1688重量与亚马逊页面重量是否合理接近"
+    - "是否存在低价但重量/包装信息缺失导致的成本误判"
 
   hard_rules:
     - "如果1688货源只是同类但不是同款，不能推荐为合适货源"
     - "如果1688货源带第三方Logo、原厂包装、仿原厂包装，直接排除"
     - "如果1688货源只是文字说明适配第三方品牌型号，且能提供中性包装、无Logo实拍图、规格确认，则不直接否决，进入谨慎评估"
     - "如果没有合适货源，必须明确说没有合适货源"
+    - "如果1688无法确认单品重量和包装尺寸，不能把维度4判定为高"
 
   achievement_reference:
-    high: "外观、功能、尺寸、型号、材质、包装、适配范围高度一致，供应商数据可靠"
-    medium: "核心功能接近，但部分尺寸、型号、包装或适配范围需要确认"
-    low: "只是同类产品，不是同款；规格不明；货源带侵权元素；供应商数据弱"
+    high: "外观、功能、尺寸、型号、材质、包装、适配范围高度一致，供应商数据可靠，重量和包装尺寸可确认"
+    medium: "核心功能接近，但部分尺寸、型号、包装、适配范围或重量信息需要确认"
+    low: "只是同类产品，不是同款；规格不明；货源带侵权元素；供应商数据弱；重量/尺寸无法确认"
 ```
 
 ---
 
-# 六、原始综合达成率计算规则
+# 七、原始综合达成率计算规则
 
 本规则只保留原始综合达成率。  
 四个维度权重合计为140%，因此原始综合达成率最高为140%。
 
 ```yaml
 raw_comprehensive_achievement:
-  enabled: true
-  total_weight: "140%"
-  max_raw_comprehensive_achievement: "140%"
+  formula: "维度1加权贡献 + 维度2加权贡献 + 维度3加权贡献 + 维度4加权贡献"
 
-  calculation_formula:
-    dimension_1_weighted_contribution: "维度1权重 × 维度1单项达成率"
-    dimension_2_weighted_contribution: "维度2权重 × 维度2单项达成率"
-    dimension_3_weighted_contribution: "维度3权重 × 维度3单项达成率"
-    dimension_4_weighted_contribution: "维度4权重 × 维度4单项达成率"
-    raw_comprehensive_achievement: "维度1加权贡献 + 维度2加权贡献 + 维度3加权贡献 + 维度4加权贡献"
+  dimension_contribution_formula:
+    - "维度1加权贡献 = 维度1权重 × 维度1单项达成率"
+    - "维度2加权贡献 = 维度2权重 × 维度2单项达成率"
+    - "维度3加权贡献 = 维度3权重 × 维度3单项达成率"
+    - "维度4加权贡献 = 维度4权重 × 维度4单项达成率"
 
-  usage:
-    - "用于解释产品真实短板"
-    - "用于解释风险来源"
-    - "用于解释利润结构"
-    - "用于辅助最终结论，但不能覆盖维度0否决项、真实利润和售后全损风险"
+  rules:
+    - "只输出原始综合达成率"
+    - "不输出校准后综合达成率"
+    - "不使用分数、得分、满分、扣分、加分等词"
+    - "原始综合达成率不能覆盖维度0否决项、真实利润、售后全损风险和重量硬性降级规则"
 
   conclusion_reference:
     "126%-140%": "极优产品，建议优先验证和推进"
     "112%-125%": "优秀产品，可以作为重点候选"
     "98%-111%": "可做，但需要确认关键风险"
-    "84%-97%": "谨慎做，需要小样、利润和售后风险确认"
+    "84%-97%": "谨慎做，需要小样、利润、重量和售后风险确认"
     "70%-83%": "偏弱，不建议优先做"
     "0%-69%": "不建议做或放弃"
 ```
 
 ---
 
-# 七、最终结论硬性规则
+# 八、最终结论硬性规则
 
 即使原始综合达成率较高，也必须服从以下硬性规则。
 
@@ -508,34 +676,50 @@ final_conclusion_hard_rules:
 
   - condition: "未扣合作伙伴佣金10%"
     final_conclusion: "投产比无效，需要重新计算"
-    reason: "利润测算缺少固定成本项"
+    reason: "合作伙伴佣金是固定成本"
 
   - condition: "未预留售后全损"
-    final_conclusion: "投产比偏乐观，需要重新计算"
-    reason: "售后损耗未充分体现"
+    final_conclusion: "投产比偏乐观，最终不能高于谨慎做"
+    reason: "售后全损是保守选品底线"
 
-  - condition: "一次售后可能吃掉多单利润"
-    final_conclusion: "谨慎做"
+  - condition: "未计算计费重量或体积重"
+    final_conclusion: "投产比偏乐观，需要补充重量和包装尺寸"
+    reason: "重量会直接影响跨境运费和利润稳定性"
+
+  - condition: "运费占销售额 > 25%"
+    final_conclusion: "不建议优先做"
+    reason: "运费吞噬利润，价格波动或售后后容易亏损"
+
+  - condition: "计费重量 > 3kg 且非高客单高利润"
+    final_conclusion: "默认不建议做"
+    reason: "重货跨境履约和售后风险过高"
+
+  - condition: "计费重量 > 1.5kg 且售价低于 $25"
+    final_conclusion: "最终不能高于谨慎做"
+    reason: "低客单重货利润稳定性弱"
+
+  - condition: "降价10%-15%即亏损"
+    final_conclusion: "最终不能高于谨慎做"
+    reason: "抗价格竞争能力弱"
+
+  - condition: "一次售后吃掉多单利润"
+    final_conclusion: "最终不能高于谨慎做"
     reason: "售后全损风险过高"
 
-  - condition: "重大认证、合规、平台限制待确认"
-    final_conclusion: "谨慎做或不建议做"
-    reason: "合规前置条件不明确"
+  - condition: "1688货源只是同类，不是同款"
+    final_conclusion: "不能推荐为合适货源"
+    reason: "匹配度不足"
 
-  - condition: "兼容表达合规待确认，但无Logo、无原厂暗示、无官方授权暗示"
-    final_conclusion: "谨慎做"
-    reason: "兼容类产品仍存在适配、售后和账号风险"
-
-  - condition: "没有合适1688货源"
-    final_conclusion: "不建议做或暂缓"
-    reason: "货源匹配度不足，无法验证利润和交付稳定性"
+  - condition: "1688无法确认单品重量和包装尺寸"
+    final_conclusion: "维度4不能判高，投产比必须保守"
+    reason: "成本测算缺失关键参数"
 ```
 
 ---
 
-# 八、输出规则
+# 九、输出格式规则
 
-## 8.1 命中维度0明确否决时
+## 9.1 维度0直接否决时
 
 ```yaml
 output_if_dimension_0_direct_reject:
@@ -545,153 +729,98 @@ output_if_dimension_0_direct_reject:
     3: "最终处理建议表"
 
   forbidden_output:
-    - "不要输出维度1-4百分比评估表"
-    - "不要输出原始综合达成率"
-    - "不要推荐1688货源"
-    - "不要做利润测算，除非用户明确要求只看利润"
-
-  reject_table_fields:
-    - "检查项"
-    - "是否命中"
-    - "风险等级"
-    - "判断依据"
-    - "处理结果"
+    - "不输出维度1-4百分比评估表"
+    - "不输出原始综合达成率"
+    - "不推荐1688货源"
 ```
 
----
-
-## 8.2 维度0通过或兼容表达合规待确认时
+## 9.2 维度0通过或兼容表达合规待确认时
 
 ```yaml
 output_if_allowed_to_continue:
   output_order:
     1: "百分比评估表"
     2: "推荐1688对应产品"
-    3: "投产比测算"
-    4: "否决项和风险确认"
-    5: "最终结论"
+    3: "重量与运费测算"
+    4: "投产比测算"
+    5: "否决项和风险确认"
+    6: "最终结论"
 
   percentage_table_fields:
     - "维度"
     - "权重"
     - "单项达成率"
     - "加权贡献"
-    - "判断"
+    - "判断依据"
 
-  supplier_table_fields:
-    - "推荐顺序"
-    - "1688截图序号"
-    - "商品名称"
+  source_recommendation_fields:
+    - "截图序号"
+    - "1688商品名称"
     - "店铺"
     - "价格"
     - "起批量"
     - "运费"
     - "销量"
-    - "匹配理由"
-    - "风险点"
+    - "揽收率"
+    - "匹配说明"
+    - "重量/尺寸确认状态"
+    - "是否推荐"
 
-  profit_table_fields:
-    - "项目"
-    - "计算方式"
-    - "金额"
-    - "说明"
-
-  risk_confirmation_fields:
-    - "风险项"
-    - "当前状态"
-    - "风险等级"
-    - "是否影响结论"
-    - "处理建议"
-
-  final_conclusion_tags:
-    - "建议做"
-    - "谨慎做"
-    - "不建议做"
-    - "放弃"
+  weight_output_fields:
+    - "亚马逊页面重量"
+    - "1688确认重量"
+    - "包装长宽高"
+    - "实际重量"
+    - "体积重"
+    - "计费重量"
+    - "跨境运费"
+    - "运费占销售额比例"
+    - "重量等级"
+    - "重量对结论的影响"
 ```
 
 ---
 
-# 九、案例触发示例
+# 十、常用判断模板
 
-## 9.1 兼容表达可进入谨慎评估示例
+## 10.1 兼容表达合规待确认模板
 
 ```yaml
-compatible_expression_allowed_example:
-  product_title: "Generic LDS Sensor Compatible For Roborock S8 S85 LDS06RR Vacuum Cleaner"
-  detected_brand: "Roborock"
-  detected_pattern: "Compatible For 第三方品牌 + 具体型号"
+compatibility_risk_template:
+  title_status: "标题包含Compatible/Fit For/Replacement For等兼容表达"
   brand_dependency: "是"
-  logo_status: "未发现Logo"
-  original_claim_status: "未出现Original/Genuine/OEM/Official/Authorized暗示"
-  brand_field_status: "自有品牌或Generic"
+  logo_status: "未发现Logo / 待确认"
+  original_claim_status: "未出现Original/Genuine/OEM/Official/Authorized暗示 / 待确认"
+  brand_field_status: "自有品牌或Generic / 待确认"
+  source_packaging_status: "1688是否中性包装、无Logo、无仿原厂包装"
   dimension_0_result: "兼容表达合规待确认，不直接否决"
   next_action: "进入维度1-4谨慎评估，维度3保守，最终结论通常不能高于谨慎做"
 ```
 
----
-
-## 9.2 直接否决示例
+## 10.2 重量测算模板
 
 ```yaml
-direct_reject_example:
-  product_title: "Original Toner for Canon GPR-55"
-  detected_brand: "Canon"
-  detected_pattern: "Original + 第三方品牌 + 耗材型号"
-  original_claim_status: "出现Original暗示"
-  authorization_status: "未提供授权"
-  dimension_0_result: "品牌/原厂暗示明确命中，维度0否决"
-  next_action: "不进入维度1-4，不推荐1688货源，直接放弃"
+weight_calculation_template:
+  amazon_weight: "页面显示重量"
+  amazon_package_size: "页面显示包装尺寸"
+  supplier_confirmed_weight: "1688供应商确认重量"
+  supplier_package_size: "1688供应商确认包装尺寸"
+  actual_weight_kg: "实际重量kg"
+  dimensional_weight_kg: "长cm × 宽cm × 高cm ÷ 6000"
+  billable_weight_kg: "actual_weight_kg 与 dimensional_weight_kg 取较高者"
+  cross_border_freight: "73 × billable_weight_kg + 10"
+  freight_sales_ratio: "cross_border_freight / amazon_sale_revenue_cny"
+  weight_level: "excellent / acceptable / cautious / weak / strong_caution"
+  conclusion_impact: "重量对维度1、维度2、维度3和最终结论的影响"
 ```
 
----
-
-## 9.3 140%原始综合达成率计算示例
-
-```yaml
-raw_comprehensive_achievement_example:
-  dimension_1:
-    name: "投产比"
-    weight: "21%"
-    single_achievement: "80%"
-    weighted_contribution: "16.8%"
-
-  dimension_2:
-    name: "产品属性与需求"
-    weight: "70%"
-    single_achievement: "75%"
-    weighted_contribution: "52.5%"
-
-  dimension_3:
-    name: "风险承受比"
-    weight: "21%"
-    single_achievement: "60%"
-    weighted_contribution: "12.6%"
-
-  dimension_4:
-    name: "1688货源匹配度"
-    weight: "28%"
-    single_achievement: "70%"
-    weighted_contribution: "19.6%"
-
-  raw_comprehensive_achievement: "101.5%"
-  conclusion_reference: "可做，但需要确认关键风险"
-```
-
----
-
-# 十、最终提醒
+## 10.3 最终提醒
 
 ```yaml
 final_reminders:
-  - "兼容品牌不一定在法律上必然违法"
-  - "Compatible For / Fit For / Replacement For 不是自动否决项"
-  - "无Logo、无原厂包装、无官方授权暗示、真实适配，可以进入谨慎评估"
-  - "有Logo、原装、正品、官方、授权暗示，或品牌字段填写第三方品牌，直接放弃"
-  - "兼容配件即使合规，也通常存在适配、安装、售后、差评和退货风险"
-  - "不要因为1688能找到同款，就默认可以安全卖；必须确认中性包装、无Logo实拍图、规格和适配范围"
-  - "不要因为利润看起来高，就忽略售后全损、账号风险、合规认证和适配误购"
+  - "不要因为1688能找到同款，就默认可以安全卖；必须确认中性包装、无Logo实拍图、规格、重量和包装尺寸"
+  - "不要因为利润看起来高，就忽略售后全损、账号风险、合规认证、适配误购、体积重和运费占比"
   - "没有合适1688货源时，必须明确说没有合适货源，不要强行推荐"
   - "四个维度权重合计为140%，原始综合达成率最高为140%"
-  - "最终结论必须同时参考维度0、真实利润、售后全损风险、原始综合达成率和1688货源匹配度"
+  - "最终结论必须同时参考维度0、真实利润、售后全损风险、计费重量、运费占比、原始综合达成率和1688货源匹配度"
 ```
