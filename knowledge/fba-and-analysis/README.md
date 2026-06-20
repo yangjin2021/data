@@ -13,10 +13,10 @@
 ```yaml
 framework_index:
   framework_name: "亚马逊FBA/FBM选品综合评估规则"
-  current_latest_version: "7.0"
-  current_latest_file: "FBA评分体系-v7.0-核心数据输出版.txt"
-  current_latest_title: "核心数据输出版"
-  current_latest_path: "knowledge/fba-and-analysis/FBA评分体系-v7.0-核心数据输出版.txt"
+  current_latest_version: "7.1"
+  current_latest_file: "FBA评分体系-v7.1-属性趋势优先版.txt"
+  current_latest_title: "属性趋势优先版"
+  current_latest_path: "knowledge/fba-and-analysis/FBA评分体系-v7.1-属性趋势优先版.txt"
   selection_rule: "每次分析前先读取README，再读取current_latest_file"
 ```
 
@@ -44,7 +44,8 @@ version_update_rule:
 
   legacy_file_rule:
     - "FBA评分体系.txt 作为 v6.0 历史版本文件保留"
-    - "以后如新增 v7.1、v8.0 等版本，应新建独立文件，例如 FBA评分体系-v7.1-xxx.txt"
+    - "FBA评分体系-v7.0-核心数据输出版.txt 作为 v7.0 历史版本文件保留"
+    - "以后如新增 v7.2、v8.0 等版本，应新建独立文件，例如 FBA评分体系-v7.2-xxx.txt"
     - "README 的 current_latest_file 必须指向真正最新版本"
 ```
 
@@ -54,10 +55,10 @@ version_update_rule:
 
 | 项目 | 内容 |
 |---|---|
-| 当前最新版本 | v7.0 |
-| 当前最新文件 | `FBA评分体系-v7.0-核心数据输出版.txt` |
-| 当前最新标题 | 核心数据输出版 |
-| 当前最新路径 | `knowledge/fba-and-analysis/FBA评分体系-v7.0-核心数据输出版.txt` |
+| 当前最新版本 | v7.1 |
+| 当前最新文件 | `FBA评分体系-v7.1-属性趋势优先版.txt` |
+| 当前最新标题 | 属性趋势优先版 |
+| 当前最新路径 | `knowledge/fba-and-analysis/FBA评分体系-v7.1-属性趋势优先版.txt` |
 | 使用方式 | 每次分析前先读本 README，再读当前最新文件 |
 
 ---
@@ -66,6 +67,7 @@ version_update_rule:
 
 | 版本 | 文件 | 说明 |
 |---|---|---|
+| v7.1 | `FBA评分体系-v7.1-属性趋势优先版.txt` | 属性趋势优先版；将“产品属性与趋势”前置为维度1，将“真实利润与投产比”后置为维度2；要求先查询产品基础属性、标准规格、趋势、季节性、多平台需求和长期稳定性，再分析投产比；新增 Amazon、Keepa、Google Trends、Google Shopping、Walmart、eBay、TikTok、YouTube、Reddit、1688、Alibaba、Made-in-China、MatWeb、UL Prospector、标准/认证网站等查询清单。 |
 | v7.0 | `FBA评分体系-v7.0-核心数据输出版.txt` | 核心数据输出版；去掉“维度0”说法，改为“否决项”；去掉原维度3和维度4，将风险、售后、履约和1688匹配整合进维度1、维度2和独立1688货源分析表；固定输出否决项推荐指数、两维评分表、维度1预估利润/利润率、维度2产品属性判断和1688货源分析表。 |
 | v6.0 | `FBA评分体系.txt` | 截图初筛成本闸门最终版；支持一张Amazon截图 + 一张1688截图，用保守默认值直接初筛成本、利润、采购单位、重量、履约模式、售后和利润闸门。 |
 
@@ -74,7 +76,8 @@ version_update_rule:
 # 文件说明
 
 - `README.md`：本目录索引文件。每次使用分析框架前必须先读它。
-- `FBA评分体系-v7.0-核心数据输出版.txt`：当前最新 v7.0 分析框架文件。
+- `FBA评分体系-v7.1-属性趋势优先版.txt`：当前最新 v7.1 分析框架文件。
+- `FBA评分体系-v7.0-核心数据输出版.txt`：历史 v7.0 分析框架文件。
 - `FBA评分体系.txt`：历史 v6.0 分析框架文件。
 - `纵横分析法.md`：横向对比与纵向拆解的分析方法。
 
