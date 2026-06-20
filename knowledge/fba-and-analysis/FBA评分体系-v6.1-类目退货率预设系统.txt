@@ -1,0 +1,368 @@
+# 亚马逊FBA/FBM选品综合评估规则｜类目退货率预设系统补充版
+
+version: "6.1"  
+enabled: true  
+base_version: "6.0"  
+base_file: "knowledge/fba-and-analysis/FBA评分体系.txt"  
+mode: "截图初筛优先 / 成本极致保守 / 利润闸门优先 / 账号安全优先 / 类目退货率参与投产比"  
+format: "人读友好 + AI执行友好"  
+total_weight: "140%"  
+default_weights: "70/21/21/28"  
+version_type: "incremental_main_version"  
+main_update: "新增类目退货率预设系统，用于影响维度1投产比"
+
+---
+
+# 一、版本定位
+
+本版本不是推翻 v6.0，而是在 v6.0「截图初筛成本闸门最终版」基础上新增一个强制参考模块：
+
+> 产品类目是默认退货率和售后全损预留的重要来源之一。低退货率类目可以适度提高维度1投产比单项达成率；高退货率类目必须提高售后全损预留，并降低维度1投产比单项达成率。
+
+执行时应理解为：
+
+```yaml
+execution_stack:
+  base_rule: "v6.0 截图初筛成本闸门最终版"
+  added_module: "v6.1 类目退货率预设系统"
+  if_conflict: "以v6.1新增模块为准，但不改变v6.0的核心流程、维度和权重"
+```
+
+---
+
+# 二、核心原则
+
+```yaml
+category_return_rate_core_principles:
+  purpose:
+    - "将产品类目作为默认退货率和售后全损预留的来源之一"
+    - "将类目退货率纳入维度1投产比判断"
+    - "让低退货率类目在投产比中获得适度正向修正"
+    - "让高退货率类目在投产比中获得强制负向修正"
+
+  important_limits:
+    - "类目退货率不是唯一依据，必须同时结合产品重量、易碎性、适配性、安装难度、主观体验、客单价和差评原因"
+    - "低退货率类目只能适度提高维度1投产比单项达成率，不能覆盖真实成本、利润闸门、售后全损、账号安全和维度0风险"
+    - "高退货率类目必须提高售后全损预留，并降低维度1投产比单项达成率"
+    - "如果产品自身存在易碎、重货、安装、尺码、适配、强主观体验问题，即使类目平均退货率低，也不能直接提高投产比"
+    - "Subscribe & Save 不是独立商品类目，只代表购买方式；必须结合实际商品所属类目判断"
+
+  calculation_position:
+    dimension: "维度1：投产比"
+    timing: "截图初筛成本测算之后、利润闸门判断之前或同时执行"
+    effect:
+      - "影响售后全损预留比例"
+      - "影响截图初筛利润"
+      - "影响维度1投产比单项达成率"
+      - "间接影响最终结论"
+```
+
+---
+
+# 三、类目默认退货率预设表
+
+以下数值为截图初筛阶段使用的保守默认值，不等同于平台官方固定退货率。真实经营中应优先使用店铺后台、产品历史退货数据、竞品差评原因和供应链售后数据。
+
+```yaml
+category_return_rate_system:
+  version: "6.1"
+  enabled: true
+  use_case: "截图初筛 / 无真实退货数据时的默认售后预留"
+
+  default_category_return_rates:
+    "Subscribe & Save":
+      default_return_rate: "1%-4%"
+      return_risk_level: "very_low"
+      after_sales_reserve: "3%"
+      dimension_1_roi_adjustment: "+4% to +6%"
+      reason:
+        - "多为消耗品或重复购买品"
+        - "用户预期稳定"
+        - "但必须结合实际商品类目判断"
+
+    "Office Products":
+      default_return_rate: "3%-7%"
+      return_risk_level: "very_low"
+      after_sales_reserve: "4%"
+      dimension_1_roi_adjustment: "+3% to +5%"
+      reason:
+        - "标准化强"
+        - "主观体验低"
+        - "误购率相对较低"
+
+    "Health & Household":
+      default_return_rate: "4%-8%"
+      return_risk_level: "low"
+      after_sales_reserve: "5%"
+      dimension_1_roi_adjustment: "+2% to +4%"
+      reason:
+        - "家庭消耗品属性较强"
+        - "退货率通常低于强尺码或强主观类目"
+      caution:
+        - "健康、功效、入口、皮肤接触、合规认证风险必须另走维度0和维度3"
+
+    "Beauty & Personal Care":
+      default_return_rate: "5%-10%"
+      return_risk_level: "low_to_medium"
+      after_sales_reserve: "6%"
+      dimension_1_roi_adjustment: "+1% to +3%"
+      reason:
+        - "消耗品属性较强"
+        - "多数产品不像服装鞋类存在尺码试穿退货"
+      caution:
+        - "香味、肤感、过敏、色号、功效宣称会提高退货和差评风险"
+        - "皮肤接触和功效宣称风险必须另走维度0和维度3"
+
+    "Arts, Crafts & Sewing":
+      default_return_rate: "5%-9%"
+      return_risk_level: "low_to_medium"
+      after_sales_reserve: "6%"
+      dimension_1_roi_adjustment: "+1% to +3%"
+      reason:
+        - "材料、工具类相对标准"
+        - "退货主要来自颜色、尺寸、材质和数量不符"
+
+    "Pet Supplies":
+      default_return_rate: "6%-10%"
+      return_risk_level: "medium_low"
+      after_sales_reserve: "7%"
+      dimension_1_roi_adjustment: "0% to +2%"
+      reason:
+        - "部分消耗品退货低"
+        - "宠物不接受、尺寸不合适、材质气味会提高退货"
+
+    "Toys & Games":
+      default_return_rate: "6%-10%"
+      return_risk_level: "medium_low"
+      after_sales_reserve: "7%"
+      dimension_1_roi_adjustment: "0% to +2%"
+      reason:
+        - "多数非强尺码类目"
+        - "质量、尺寸、年龄段预期和节假日退货会影响售后"
+
+    "Patio, Lawn & Garden":
+      default_return_rate: "7%-12%"
+      return_risk_level: "medium"
+      after_sales_reserve: "8%"
+      dimension_1_roi_adjustment: "0% to -2%"
+      reason:
+        - "户外产品可能偏重、易损、季节性强"
+        - "尺寸、安装、耐用性和包装破损容易导致退货"
+
+    "Home & Kitchen":
+      default_return_rate: "7%-13%"
+      return_risk_level: "medium"
+      after_sales_reserve: "8%"
+      dimension_1_roi_adjustment: "0% to -3%"
+      reason:
+        - "尺寸、颜色、质量感、功能不符和易碎问题较常见"
+        - "主观预期差容易导致退货"
+
+    "Kitchen & Dining":
+      default_return_rate: "7%-13%"
+      return_risk_level: "medium"
+      after_sales_reserve: "8%"
+      dimension_1_roi_adjustment: "0% to -3%"
+      reason:
+        - "材质、容量、尺寸、易碎和食品接触属性会影响退货和合规"
+      caution:
+        - "接触食品材料必须另走合规和安全判断"
+
+    "Baby":
+      default_return_rate: "8%-15%"
+      return_risk_level: "medium_high"
+      after_sales_reserve: "10%"
+      dimension_1_roi_adjustment: "-2% to -5%"
+      reason:
+        - "尺寸、安全、材质和家长预期更敏感"
+        - "差评、退货和平台审核风险都更高"
+      caution:
+        - "婴童产品必须额外检查CPC、材质安全、窒息风险、年龄段标识和平台限制"
+
+    "Musical Instruments":
+      default_return_rate: "8%-15%"
+      return_risk_level: "medium_high"
+      after_sales_reserve: "10%"
+      dimension_1_roi_adjustment: "-2% to -5%"
+      reason:
+        - "音色、手感、兼容性、专业预期和运输损伤都会带来退货"
+
+    "Sports & Outdoors":
+      default_return_rate: "8%-15%"
+      return_risk_level: "medium_high"
+      after_sales_reserve: "10%"
+      dimension_1_roi_adjustment: "-2% to -6%"
+      reason:
+        - "尺寸、承重、安装、运动适配、户外耐用性问题较多"
+        - "强使用场景下的质量和安全预期更高"
+
+    "Clothing, Shoes & Jewelry":
+      default_return_rate: "18%-30%"
+      return_risk_level: "high"
+      after_sales_reserve: "20%"
+      dimension_1_roi_adjustment: "-8% to -15%"
+      reason:
+        - "尺码、版型、颜色、材质、试穿退货、主观审美导致退货率高"
+        - "线上服装鞋靴珠宝饰品类存在天然高退货风险"
+      hard_limit:
+        - "默认不得因为售价差大而给出高投产比"
+        - "除非有明确低退货证据、尺码标准化、评价稳定和售后可控证据，否则维度1不能给高达成率"
+```
+
+---
+
+# 四、按退货率档位调整维度1投产比
+
+```yaml
+return_rate_to_roi_adjustment:
+  purpose: "把类目退货率映射为售后全损预留和维度1投产比修正"
+
+  levels:
+    very_low_return:
+      return_rate: "1%-4%"
+      after_sales_reserve: "3%"
+      dimension_1_roi_adjustment: "+4% to +6%"
+      meaning: "极低退货，投产比可适度上调"
+
+    low_return:
+      return_rate: "4%-8%"
+      after_sales_reserve: "5%"
+      dimension_1_roi_adjustment: "+2% to +4%"
+      meaning: "低退货，售后压力较小"
+
+    medium_return:
+      return_rate: "8%-12%"
+      after_sales_reserve: "8%"
+      dimension_1_roi_adjustment: "0% to -2%"
+      meaning: "中等退货，维持保守"
+
+    medium_high_return:
+      return_rate: "12%-18%"
+      after_sales_reserve: "12%"
+      dimension_1_roi_adjustment: "-3% to -6%"
+      meaning: "中高退货，投产比必须下调"
+
+    high_return:
+      return_rate: "18%-30%"
+      after_sales_reserve: "18%-22%"
+      dimension_1_roi_adjustment: "-8% to -15%"
+      meaning: "高退货，利润安全垫必须显著提高"
+
+    extreme_high_return:
+      return_rate: "30%+"
+      after_sales_reserve: "25%+"
+      dimension_1_roi_adjustment: "维度1不能高于谨慎区间"
+      meaning: "极高退货，默认不优先做"
+```
+
+---
+
+# 五、产品风险倍率
+
+类目退货率只是基础值，必须根据具体产品风险进行倍率修正。
+
+```yaml
+product_risk_multiplier:
+  standard_simple_product:
+    multiplier: "×1.0"
+    meaning: "标准简单产品，使用类目默认退货率"
+
+  consumable_or_repeat_purchase:
+    multiplier: "×0.7"
+    meaning: "消耗品或重复购买品，退货率可适度下调"
+
+  fragile_or_easily_damaged:
+    multiplier: "×1.2"
+    meaning: "易碎、易压坏、运输损伤风险高"
+
+  size_fit_or_style_sensitive:
+    multiplier: "×1.3"
+    meaning: "尺码、版型、颜色、审美敏感"
+
+  installation_or_compatibility_sensitive:
+    multiplier: "×1.2"
+    meaning: "安装、适配、型号匹配风险较高"
+
+  subjective_experience_sensitive:
+    multiplier: "×1.2"
+    meaning: "香味、手感、音色、舒适度、效果等主观体验强"
+
+  high_value_or_heavy_product:
+    multiplier: "×1.2"
+    meaning: "高客单、重货、大件，退货处理成本高"
+```
+
+---
+
+# 六、计算规则
+
+```yaml
+category_return_rate_calculation:
+  step_1:
+    name: "读取Amazon类目"
+    action: "从Amazon商品截图或文本中识别主类目和细分类目"
+
+  step_2:
+    name: "读取类目默认退货率"
+    action: "根据default_category_return_rates匹配默认退货率"
+
+  step_3:
+    name: "识别产品风险倍率"
+    action: "根据易碎、重货、安装、适配、尺码、主观体验、消耗品属性确定倍率"
+
+  step_4:
+    name: "计算调整后退货率"
+    formula: "adjusted_return_rate = category_default_return_rate_midpoint × product_risk_multiplier"
+
+  step_5:
+    name: "计算售后全损预留"
+    formula: "after_sales_full_loss_reserve = 单件不可回收成本 × adjusted_return_rate"
+
+  step_6:
+    name: "修正维度1投产比"
+    action: "根据return_rate_to_roi_adjustment调整维度1投产比单项达成率"
+```
+
+---
+
+# 七、硬性限制
+
+```yaml
+category_return_rate_hard_limits:
+  - "低退货类目不能覆盖维度0否决项"
+  - "低退货类目不能覆盖利润闸门"
+  - "低退货类目不能覆盖真实成本亏损"
+  - "低退货类目不能覆盖售后全损后亏损"
+  - "Clothing, Shoes & Jewelry 默认不得因为售价差大而给出高投产比，除非有明确低退货证据"
+  - "Baby 类目即使退货率不是最高，也必须额外考虑安全、材质、认证和差评风险"
+  - "Beauty & Personal Care 和 Health & Household 退货率低时可以提高投产比，但不得覆盖合规、功效宣称、皮肤接触、过敏风险"
+  - "Subscribe & Save 只代表购买方式，不是独立产品类目；必须结合实际商品所属类目判断"
+```
+
+---
+
+# 八、输出要求
+
+以后做选品分析时，如果能识别Amazon类目，必须在维度1投产比分析中增加以下内容：
+
+```yaml
+required_output_for_category_return_rate:
+  - "Amazon类目"
+  - "类目默认退货率"
+  - "产品风险倍率"
+  - "调整后退货率"
+  - "售后全损预留"
+  - "对维度1投产比单项达成率的影响"
+  - "是否触发高退货类目硬性限制"
+```
+
+---
+
+# 九、参考来源说明
+
+```yaml
+reference_notes:
+  - "NRF + Happy Returns 2024 Consumer Returns in the Retail Industry：2024美国零售年退货率约16.9%，退货是零售行业重要成本项"
+  - "Eightx 2026 ecommerce return rate benchmarks：服装、鞋类、美妆、宠物、订阅消耗品、家居等不同垂直类目的退货率差异明显"
+  - "本规则中的具体类目数值用于截图初筛阶段的保守默认估算，不等同于Amazon官方类目退货率"
+```
