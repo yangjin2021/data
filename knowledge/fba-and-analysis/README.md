@@ -9,10 +9,10 @@
 ```yaml
 framework_index:
   framework_name: "亚马逊FBA/FBM选品综合评估规则"
-  current_latest_version: "7.3"
-  current_latest_file: "FBA评分体系-v7.3-去维度命名版.txt"
-  current_latest_title: "去维度命名版"
-  current_latest_path: "knowledge/fba-and-analysis/FBA评分体系-v7.3-去维度命名版.txt"
+  current_latest_version: "7.4"
+  current_latest_file: "FBA评分体系-v7.4-品牌识别强化版.txt"
+  current_latest_title: "品牌识别强化版"
+  current_latest_path: "knowledge/fba-and-analysis/FBA评分体系-v7.4-品牌识别强化版.txt"
   selection_rule: "每次分析前先读取README，再读取current_latest_file"
 ```
 
@@ -42,7 +42,8 @@ framework_index:
 
 | 版本 | 文件 | 说明 |
 |---|---|---|
-| v7.3 | `FBA评分体系-v7.3-去维度命名版.txt` | 当前版本。保留 v7.2 的表格优先输出顺序，但评分表不再使用“维度1/维度2”说法，只显示“产品属性与趋势”和“预估利润与投产比”。 |
+| v7.4 | `FBA评分体系-v7.4-品牌识别强化版.txt` | 当前版本。强化品牌识别：标题翻译后剩下的英文，若不像规格/型号/通用词，优先判断为品牌或疑似品牌；Compatible/Fit/Suitable for 后面的品牌按兼容对象处理，不自动等同侵权。 |
+| v7.3 | `FBA评分体系-v7.3-去维度命名版.txt` | 去维度命名版；评分表不再使用“维度1/维度2”说法，只显示“产品属性与趋势”和“预估利润与投产比”。 |
 | v7.2 | `FBA评分体系-v7.2-表格优先输出版.txt` | 表格优先输出版；先输出评分表，再输出1688货源分析表，第三部分再输出否决项与推荐指数，其他核心数据和最终结论放在后面。 |
 | v7.1 | `FBA评分体系-v7.1-属性趋势优先版.txt` | 产品属性与趋势为维度1，真实利润与投产比为维度2；先查产品基础属性、趋势、季节性和多平台需求，再分析利润。 |
 | v7.0 | `FBA评分体系-v7.0-核心数据输出版.txt` | 核心数据输出版；去掉“维度0”，改为“否决项”；只保留两维评分和1688货源分析表。 |
@@ -53,7 +54,8 @@ framework_index:
 ## 文件说明
 
 - `README.md`：本目录索引文件。
-- `FBA评分体系-v7.3-去维度命名版.txt`：当前最新规则。
+- `FBA评分体系-v7.4-品牌识别强化版.txt`：当前最新规则。
+- `FBA评分体系-v7.3-去维度命名版.txt`：历史版本。
 - `FBA评分体系-v7.2-表格优先输出版.txt`：历史版本。
 - `FBA评分体系-v7.1-属性趋势优先版.txt`：历史版本。
 - `FBA评分体系-v7.0-核心数据输出版.txt`：历史版本。
